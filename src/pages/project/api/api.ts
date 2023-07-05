@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { ArrayState, IReadonlyState, IState } from "../../state";
+import { ArrayState, IReadonlyState, IState } from "../../../state";
 
 export declare namespace Api {
 	export type UUID = string;

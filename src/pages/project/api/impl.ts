@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { IReadonlyState, IState, ArrayState, BasicState } from "../../state";
+import { IReadonlyState, IState, ArrayState, BasicState } from "../../../state";
 import { Api } from "./api";
 
 type ApiProjectRequest = {

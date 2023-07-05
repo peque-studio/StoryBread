@@ -1,6 +1,6 @@
-import State, { ArrayState, HTMLState, IReadonlyState, dependentState, effectNow } from "../state";
+import State, { ArrayState, HTMLState, IReadonlyState, dependentState, effectNow } from "../../state";
 import { Api, globalApi } from "./api/api";
-import { E, Q } from "../html";
+import { E, Q } from "../../html";
 
 const createNode = (node: Api.Node) => {
 	return E(`div.node#${node.id}`, (e) => {
