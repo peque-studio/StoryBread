@@ -2,7 +2,9 @@ import { Socket, io } from "socket.io-client";
 import { IReadonlyState, IState, ArrayState, BasicState } from "../../state";
 import { Api } from "./api";
 
-type ApiProjectRequest = { [key in keyof Api.Project]: Api.Project[key] extends IReadonlyState<infer T> ? T : never };
+type ApiProjectRequest = {
+	[key in keyof Api.Project]: Api.Project[key] extends IReadonlyState<infer T> ? T : never;
+};
 
 class Project implements Api.Project {
 	id: IReadonlyState<string>;
@@ -10,7 +12,7 @@ class Project implements Api.Project {
 	nodes: ArrayState<Api.Node>;
 	created: IReadonlyState<Date>;
 	modified: IReadonlyState<Date>;
-	
+
 	constructor(public socket: Socket, o: ApiProjectRequest) {
 		this.id = new BasicState<string>(o.id);
 		this.name = new BasicState<string>(o.name);
@@ -22,8 +24,6 @@ class Project implements Api.Project {
 
 export async function getProject(id: string): Promise<Project> {
 	const response = await fetch(`/api/project/${id}`);
-	const project = await response.json() as ApiProjectRequest;
+	const project = (await response.json()) as ApiProjectRequest;
 	return new Project(io(`/project/${id}`), project);
 }
-
-
