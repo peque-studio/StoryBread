@@ -1,5 +1,5 @@
 import State, { ArrayState, HTMLState, IReadonlyState, dependentState, effectNow } from "../state";
-import { Api, globalApi } from "../api/api";
+import { Api, globalApi } from "./api/api";
 import { E, Q } from "../html";
 
 const createNode = (node: Api.Node) => {
@@ -32,3 +32,8 @@ const createNodeEditor = (project: IReadonlyState<Api.Project>) => {
 		});
 	});
 };
+
+window.addEventListener('load', () => {
+	// document.location.
+	// const nodeEditor = createNodeEditor();
+});
