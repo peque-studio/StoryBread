@@ -20,11 +20,11 @@ export default class State<V, T> implements IState<V, T> {
 		this.value = initial;
 		this.effects = [];
 	}
-	
+
 	update(trans: T): void {
 		const old = this.value;
 		this.value = this.handler(trans, old);
-		this.effects.forEach(e => e(this.value, old));
+		this.effects.forEach((e) => e(this.value, old));
 	}
 
 	get(): V {
@@ -46,7 +46,7 @@ export class ConstState<V> extends State<V, never> {
 /** State where the transaction is the new value. */
 export class BasicState<V> extends State<V, V> {
 	constructor(initial: V) {
-		super(initial, newValue => newValue);
+		super(initial, (newValue) => newValue);
 	}
 }
 
@@ -55,8 +55,8 @@ export class ArrayState<E> extends State<E[], { add: E } | { remove: E }> {
 	constructor(initial: E[]) {
 		super(initial, (trans, current) => {
 			const list = [...current];
-			if ('add' in trans) list.push(trans.add);
-			if ('remove' in trans) list.splice(list.indexOf(trans.remove), 1);
+			if ("add" in trans) list.push(trans.add);
+			if ("remove" in trans) list.splice(list.indexOf(trans.remove), 1);
 			return list;
 		});
 	}
@@ -79,9 +79,9 @@ export const effectNow = <V>(s: IReadonlyState<V>, effect: EffectFunc<V, V | und
  **/
 export const dependentState = <V, U>(
 	state: IReadonlyState<V>,
-	getValue: (value: V, old: V | undefined) => U
+	getValue: (value: V, old: V | undefined) => U,
 ): IReadonlyState<U> => {
 	const dependentState = new BasicState(getValue(state.get(), undefined));
-	state.effect((value, old) => dependentState.update(getValue(value, old)))
+	state.effect((value, old) => dependentState.update(getValue(value, old)));
 	return dependentState;
 };

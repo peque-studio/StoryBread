@@ -11,16 +11,16 @@ export namespace Api {
 		}
 
 		export interface Node {
-			pos: Pos;
+			pos: IState<Pos, Pos>;
 		}
 	}
 
 	export interface Node {
-		id: UUID;
-		name: string;
+		id: IReadonlyState<UUID>;
+		name: IState<string, string>;
 		ui: UI.Node;
 	}
-	
+
 	export interface Project {
 		id: IReadonlyState<string>;
 		name: IState<string, string>;
@@ -29,4 +29,4 @@ export namespace Api {
 	}
 }
 
-export const globalApi = io('/api/global');
+export const globalApi = io("/api/global");
