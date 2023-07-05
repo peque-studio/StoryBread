@@ -2,6 +2,8 @@ import { Socket, io } from "socket.io-client";
 import { ArrayState, BasicState, IReadonlyState, IState } from "../state";
 
 export namespace Api {
+	export type UUID = string;
+
 	export namespace UI {
 		export interface Pos {
 			x: number;
@@ -14,6 +16,7 @@ export namespace Api {
 	}
 
 	export interface Node {
+		id: UUID;
 		name: string;
 		ui: UI.Node;
 	}

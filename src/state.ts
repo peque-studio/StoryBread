@@ -1,4 +1,4 @@
-export type EffectFunc<V> = (value: V, old: V) => void;
+export type EffectFunc<V, O = V> = (value: V, old: O) => void;
 
 /** A readonly "window" into a state. May be updated elsewhere. */
 export interface IReadonlyState<V> {
@@ -65,7 +65,7 @@ export class ArrayState<E> extends State<E[], { add: E } | { remove: E }> {
 export const HTMLState = ConstState<HTMLElement>;
 
 /** Bind the effect callback and call it immediately (with `old = undefined`). */
-export const effectNow = <V>(s: IReadonlyState<V>, effect: EffectFunc<V | undefined>) => {
+export const effectNow = <V>(s: IReadonlyState<V>, effect: EffectFunc<V, V | undefined>) => {
 	s.effect(effect);
 	effect(s.get(), undefined);
 };

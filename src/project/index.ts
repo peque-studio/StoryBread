@@ -10,6 +10,8 @@ class NodeEditor {
 			return E('div.node-editor', e => {
 				effectNow(project.nodes, (nodes, oldNodes) => {
 					// TODO: difference between nodes and oldNodes.
+					const newNodes = nodes.filter(n => !oldNodes?.find(oldNode => oldNode.id === n.id));
+					const removedNodes = oldNodes?.filter(oldNode => !nodes?.find(n => oldNode.id === n.id)) ?? [];
 				});
 			});
 		});
