@@ -1,7 +1,7 @@
 import { Socket, io } from "socket.io-client";
-import { ArrayState, BasicState, IReadonlyState, IState } from "../../state";
+import { ArrayState, IReadonlyState, IState } from "../../state";
 
-export namespace Api {
+export declare namespace Api {
 	export type UUID = string;
 
 	export namespace UI {
@@ -26,7 +26,11 @@ export namespace Api {
 		name: IState<string, string>;
 		nodes: ArrayState<Node>;
 		socket: Socket;
+		created: IReadonlyState<Date>;
+		modified: IReadonlyState<Date>;
 	}
+
+	export function getProject(): Promise<Project>;
 }
 
-export const globalApi = io("/api/global");
+export declare const globalApi: Socket;
