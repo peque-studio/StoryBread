@@ -7,8 +7,10 @@ class NodeEditor {
 
 	create(): IReadonlyState<HTMLElement> {
 		return dependentState(this.project, project => {
-			return E('div', e => {
-				e.classList.add('node-editor');
+			return E('div.node-editor', e => {
+				effectNow(project.nodes, (nodes, oldNodes) => {
+					// TODO: difference between nodes and oldNodes.
+				});
 			});
 		});
 	}
