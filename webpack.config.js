@@ -1,4 +1,6 @@
 module.exports = {
+	entry: ['./src/index.ts'],
+	output: { filename: './dist/bundle.js', },
 	module: {
 		rules: [
 			{ // PostCSS
@@ -16,7 +18,7 @@ module.exports = {
 					},
 					{
 						loader: 'postcss-loader'
-					}
+					},
 				]
 			},
 			{ // Typescript
