@@ -33,7 +33,7 @@ export function E(
 	if (typeof elemOrHandler !== "string") {
 		return E("div" as const, elemOrHandler as (e: HTMLElement) => void);
 	}
-	
+
 	const e = document.createElement(elemOrHandler);
 
 	const sel = _extractSelector(elemOrHandler);
