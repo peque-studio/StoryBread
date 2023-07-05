@@ -61,3 +61,27 @@ export class ArrayState<E> extends State<E[], { add: E } | { remove: E }> {
 		});
 	}
 }
+
+export const HTMLState = ConstState<HTMLElement>;
+
+/** Bind the effect callback and call it immediately (with `old = undefined`). */
+export const effectNow = <V>(s: IReadonlyState<V>, effect: EffectFunc<V | undefined>) => {
+	s.effect(effect);
+	effect(s.get(), undefined);
+};
+
+/**
+ * Create a state that depends on another state.
+ * The `getValue` function is called immediately.
+ * On `state` update, the dependent value is replaced
+ * with the return value of the `getValue` function.
+ * (see {@link BasicState})
+ **/
+export const dependentState = <V, U>(
+	state: IReadonlyState<V>,
+	getValue: (value: V, old: V | undefined) => U
+): IReadonlyState<U> => {
+	const dependentState = new BasicState(getValue(state.get(), undefined));
+	state.effect((value, old) => dependentState.update(getValue(value, old)))
+	return dependentState;
+};
