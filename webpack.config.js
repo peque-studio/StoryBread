@@ -1,6 +1,19 @@
+const path = require('path');
+
 module.exports = {
-	entry: ['./src/index.ts'],
-	output: { filename: './dist/bundle.js', },
+	entry: {
+		main: {
+			import: './src/home/index.js',
+		},
+		project: {
+			import: './src/project/index.ts',
+		},
+	},
+	mode: 'development',
+	output: {
+		filename: '[name].bundle.js',
+		path: path.resolve(__dirname, 'dist')
+	},
 	module: {
 		rules: [
 			{ // PostCSS
@@ -17,7 +30,7 @@ module.exports = {
 						}
 					},
 					{
-						loader: 'postcss-loader'
+						loader: 'postcss-loader',
 					},
 				]
 			},
@@ -28,5 +41,4 @@ module.exports = {
       },
 		]
 	},
-	mode: 'development'
 }
