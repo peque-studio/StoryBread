@@ -1,0 +1,12 @@
+{
+  "name": "storybread",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "monomere, idkarn",
+  "license": "MIT",
+  "dependencies": {
+    "postcss-loader": "^7.3.3",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.1"
+  }
+}
