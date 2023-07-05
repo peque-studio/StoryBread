@@ -33,7 +33,7 @@ const createNodeEditor = (project: IReadonlyState<Api.Project>) => {
 	});
 };
 
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
 	// document.location.
 	// const nodeEditor = createNodeEditor();
 });
