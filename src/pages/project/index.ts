@@ -1,16 +1,50 @@
-import State, { ArrayState, HTMLState, IReadonlyState, dependentState, effectNow } from "../../state";
+import State, {
+	ArrayState,
+	ConstState,
+	HTMLState,
+	IReadonlyState,
+	dependentState,
+	effectNow,
+} from "../../state";
 import { Api, globalApi } from "./api/api";
 import { E, Q } from "../../html";
+import "./assets/styles.css";
+import { getProject } from "./api/impl";
 
 const createNode = (node: Api.Node) => {
 	return E(`div.node#${node.id}`, (e) => {
-		e.appendChild(
-			E("span.node-name", (nameSpan) => {
+		e.append(
+			E("span.node-name", (nameEl) => {
 				effectNow(node.name, (name) => {
-					nameSpan.textContent = name;
+					nameEl.textContent = name;
 				});
 			}),
+			E("div.node-body", (bodyEl) => {
+				// effectNow(node.name, (name) => {
+				// 	bodyEl.textContent = name;
+				// });
+			}),
 		);
+		e.addEventListener("dragstart", (ev) => {
+			console.log("drag start:", {
+				offsetX: ev.offsetX,
+				offsetY: ev.offsetY,
+				clientX: ev.clientX,
+				clientY: ev.clientY,
+			});
+		});
+		e.addEventListener("drag", (ev) => {
+			e.style.left = `${ev.clientX}px`;
+			e.style.top = `${ev.clientY}px`;
+		});
+		e.addEventListener("dragend", (ev) => {
+			console.log("drag end:", {
+				offsetX: ev.offsetX,
+				offsetY: ev.offsetY,
+				clientX: ev.clientX,
+				clientY: ev.clientY,
+			});
+		});
 	});
 };
 
@@ -33,7 +67,8 @@ const createNodeEditor = (project: IReadonlyState<Api.Project>) => {
 	});
 };
 
-window.addEventListener("load", () => {
-	// document.location.
-	// const nodeEditor = createNodeEditor();
+window.addEventListener("load", async () => {
+	const nodeEditor = createNodeEditor(new ConstState(await getProject("test")));
+	document.body.appendChild(nodeEditor.get());
+	nodeEditor.effect((newEl, oldEl) => oldEl.replaceWith(newEl));
 });

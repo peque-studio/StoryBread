@@ -9,14 +9,16 @@ type _MatchSelector<T extends string> = T extends `${infer P extends keyof HTMLE
 	: never;
 
 type _SelectorInfo = {
+	elem: string;
 	classes: string[];
 	id: string | undefined;
 };
 
 const _extractSelector = (s: string) => {
-	const sel: _SelectorInfo = { classes: [], id: undefined };
-	sel.id = s.match(/#[\w_\-]/)?.[0];
-	sel.classes = s.match(/\.[\w_\-]/)?.map((m) => m) ?? [];
+	const sel: _SelectorInfo = { classes: [], id: undefined, elem: "" };
+	sel.id = s.match(/#[\w_\-]+/)?.[0];
+	sel.classes = s.match(/\.[\w_\-]+/)?.map((m) => m) ?? [];
+	sel.elem = s.match(/([\w_\-]+)(\.|#)?/)?.[1]!;
 	return sel;
 };
 
@@ -34,9 +36,8 @@ export function E(
 		return E("div" as const, elemOrHandler as (e: HTMLElement) => void);
 	}
 
-	const e = document.createElement(elemOrHandler);
-
 	const sel = _extractSelector(elemOrHandler);
+	const e = document.createElement(sel.elem);
 	if (sel.id) e.id = sel.id;
 	sel.classes.forEach((c) => e.classList.add(c));
 

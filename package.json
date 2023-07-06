@@ -1,11 +1,11 @@
 {
   "name": "storybread",
   "version": "0.1.0",
-  "private": "true",
   "author": "monomere, idkarn",
   "license": "MIT",
   "scripts": {
-    "build": "webpack build"
+    "build": "webpack build",
+    "dev": "webpack serve"
   },
   "dependencies": {
     "postcss-loader": "^7.3.3",
@@ -27,6 +27,7 @@
     "socket.io-client": "^4.7.1",
     "style-loader": "^3.3.3",
     "typescript": "^5.1.6",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
