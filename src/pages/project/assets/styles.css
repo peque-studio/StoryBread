@@ -15,8 +15,18 @@ html, body {
 
 .node {
 	position: relative;
+	display: flex;
 	width: 100px;
 	height: 100px;
 	background-color: #eee;
 	overflow: hidden;
+	flex-direction: column;
+	user-select: none;
+}
+
+.node-name {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ddd;
 }

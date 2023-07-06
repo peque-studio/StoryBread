@@ -7,12 +7,13 @@ import State, {
 	effectNow,
 } from "../../state";
 import { Api, globalApi } from "./api/api";
-import { E, Q } from "../../html";
+import { E, Q, makeDraggable } from "../../html";
 import "./assets/styles.css";
 import { getProject } from "./api/impl";
 
 const createNode = (node: Api.Node) => {
 	return E(`div.node#${node.id}`, (e) => {
+		makeDraggable(e, { pos: node.ui.pos });
 		e.append(
 			E("span.node-name", (nameEl) => {
 				effectNow(node.name, (name) => {
@@ -25,26 +26,6 @@ const createNode = (node: Api.Node) => {
 				// });
 			}),
 		);
-		e.addEventListener("dragstart", (ev) => {
-			console.log("drag start:", {
-				offsetX: ev.offsetX,
-				offsetY: ev.offsetY,
-				clientX: ev.clientX,
-				clientY: ev.clientY,
-			});
-		});
-		e.addEventListener("drag", (ev) => {
-			e.style.left = `${ev.clientX}px`;
-			e.style.top = `${ev.clientY}px`;
-		});
-		e.addEventListener("dragend", (ev) => {
-			console.log("drag end:", {
-				offsetX: ev.offsetX,
-				offsetY: ev.offsetY,
-				clientX: ev.clientX,
-				clientY: ev.clientY,
-			});
-		});
 	});
 };
 
