@@ -1,27 +1,7 @@
 import { Socket, io } from "socket.io-client";
 import { IReadonlyState, IState, ArrayState, BasicState } from "../../../state";
 import { Api } from "./api";
-
-type Primitive = bigint | boolean | null | number | string | symbol | undefined | Date | Function;
-
-type IsStateful_<P, T> = T extends IReadonlyState<unknown> ? P : never;
-type ToStateless_<T> = T extends IReadonlyState<infer V>
-	? V extends Array<infer E>
-		? StatelessProps<E>[]
-		: StatelessProps<V>
-	: T extends Array<infer E>
-	? StatelessProps<E>[]
-	: [T] extends [Primitive]
-	? T
-	: StatelessProps<T>;
-
-type StateInitialProps<T> = {
-	[P in keyof T as IsStateful_<P, T[P]>]: ToStateless_<T[P]>;
-};
-
-type StatelessProps<T> = {
-	[P in keyof T]: ToStateless_<T[P]>;
-};
+import { StateInitialProps } from "../../../util";
 
 type ApiProjectRequest = StateInitialProps<Api.Project>;
 
@@ -33,17 +13,20 @@ class Project implements Api.Project {
 	modified: IReadonlyState<Date>;
 
 	constructor(public socket: Socket, o: ApiProjectRequest) {
-		this.id = new BasicState<string>(o.id);
-		this.name = new BasicState<string>(o.name);
-		this.nodes = new ArrayState<Api.Node>(
-			o.nodes.map((n) => ({
-				id: new BasicState(n.id),
-				name: new BasicState(n.name),
-				ui: { pos: new BasicState(n.ui.pos) },
-			})),
+		this.id = new BasicState(o.id);
+		this.name = new BasicState(o.name);
+		this.nodes = new ArrayState(
+			o.nodes.map(
+				(n) =>
+					<Api.Node>{
+						id: new BasicState(n.id),
+						name: new BasicState(n.name),
+						ui: { pos: new BasicState(n.ui.pos) },
+					},
+			),
 		);
-		this.created = new BasicState<Date>(o.created);
-		this.modified = new BasicState<Date>(o.modified);
+		this.created = new BasicState(o.created);
+		this.modified = new BasicState(o.modified);
 	}
 }
 
