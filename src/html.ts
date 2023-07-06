@@ -1,5 +1,6 @@
 import { IReadonlyState, IState, effectNow } from "./state";
 
+/** Shorthand for {@link document.querySelector} */
 export const Q = <T extends HTMLElement>(s: string) => document.querySelector<T>(s);
 
 type _MatchSelector<T extends string> = T extends `${infer P extends keyof HTMLElementTagNameMap}.${string}`
@@ -24,7 +25,15 @@ const _extractSelector = (s: string) => {
 	return sel;
 };
 
+/** Same as {@link E}('div', handler) */
 export function E(handler: (e: HTMLDivElement) => void): HTMLDivElement;
+
+/**
+ * Create an element with the specified selector (currently supports classes and ids)
+ * and call a function with that element.
+ * @param elem Element selector.
+ * @param handler Function that fills the element
+ */
 export function E<U extends string>(
 	elem: U,
 	handler?: (e: HTMLElementTagNameMap[_MatchSelector<U>]) => void,
@@ -47,6 +56,8 @@ export function E(
 	return e;
 }
 
+// TODO: Make this Pos thing unified somewhere.
+
 export interface Pos {
 	x: number;
 	y: number;
@@ -60,14 +71,19 @@ export interface DragConfig {
 	onDrag?: () => void;
 }
 
+/** Make an element draggable. Changes `e.style.left` and `e.style.top`. */
 export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 	effectNow(cfg.pos, ({ x, y }) => {
+		// We don't have to check for cfg.enabled because:
+		// a) that means that cfg.pos.get() and the styles will be out of sync.
+		// b) cfg.pos isn't updated if the dragging is disabled anyway.
 		e.style.left = `${x}px`;
 		e.style.top = `${y}px`;
 	});
 
 	e.addEventListener("mousedown", (ev) => {
 		if (cfg.enabled && !cfg.enabled.get()) return;
+
 		const offset = {
 			x: cfg.pos.get().x - ev.clientX,
 			y: cfg.pos.get().y - ev.clientY,
