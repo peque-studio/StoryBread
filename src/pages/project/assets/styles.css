@@ -3,14 +3,22 @@ body {
 	flex-direction: column;
 	margin: 0;
 	padding: 0;
-	overflow: hidden; /* HACK */
+	overflow: auto; /* HACK */
+}
+
+main {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 1rem;
 }
 
 .node-editor {
+	position: relative;
 	width: 100%;
 	height: 100%;
-	padding: 1rem;
 	overflow: auto;
+	background-attachment: local;
 	/* background-size: 40px 40px; -- in JS */
 	background-image:
 		radial-gradient(
@@ -77,15 +85,18 @@ body {
 
 .node-con {
 	position: absolute;
-	top: 0; bottom: 0;
-	left: 0; right: 0;
-	overflow: visible;
+	pointer-events: none;
 }
 
 .node-con > svg {
+	display: block;
 	width: 100%;
 	height: 100%;
+	margin: 0;
+	padding: 0;
+	pointer-events: all;
 }
+
 .menu-bar {
 	padding: 0.5rem;
 	background-color: var(--style-menu-background-color);
