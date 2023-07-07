@@ -43,7 +43,8 @@ const smoothLineDef = (x0: number, y0: number, x1: number, y1: number): string =
 
 const createNodeConnection = (con: NodeConnection) =>
 	E(`div.node-con#${con.from.id}-${con.to.id}`, (e) => {
-		const path = SVG().addTo(e).path();
+		const svg = SVG().addTo(e);
+		const path = svg.path();
 
 		path.fill("transparent");
 
@@ -56,14 +57,24 @@ const createNodeConnection = (con: NodeConnection) =>
 		);
 
 		effectNow(joinedState(con.from.ui.pos, con.to.ui.pos), ([fromPos, toPos]) => {
-			path.plot(
-				smoothLineDef(
-					fromPos.x + NODE_WIDTH,
-					fromPos.y + NODE_HEIGHT / 2,
-					toPos.x,
-					toPos.y + NODE_HEIGHT / 2,
-				),
+			const pad = 10;
+
+			// TODO: fix all of this:
+
+			const coords = {
+				x0: pad / 2 + (toPos.x < fromPos.x ? fromPos.x - toPos.x : pad / 2),
+				y0: pad + (toPos.y < fromPos.y ? fromPos.y - toPos.y : 0),
+				x1: pad + toPos.x - fromPos.x - NODE_WIDTH,
+				y1: pad + (toPos.y < fromPos.y ? 0 : toPos.y - fromPos.y),
+			};
+
+			e.style.left = `${Math.min(fromPos.x + NODE_WIDTH, toPos.x) - pad}px`;
+			e.style.top = `${Math.min(fromPos.y, toPos.y) + NODE_HEIGHT / 2 - pad}px`;
+			svg.size(
+				Math.abs(toPos.x - fromPos.x - NODE_WIDTH) + pad * 2,
+				Math.abs(toPos.y - fromPos.y) + pad * 2,
 			);
+			path.plot(smoothLineDef(coords.x0, coords.y0, coords.x1, coords.y1));
 		});
 	});
 
@@ -134,7 +145,7 @@ const createNodeEditor = (project: IReadonlyState<Api.Project>) =>
 		return E("div.node-editor", (e) => {
 			e.style.backgroundSize = `${NODE_EDITOR_GRID}px ${NODE_EDITOR_GRID}px`;
 			e.style.backgroundPositionX = `${NODE_EDITOR_GRID / 2}px`;
-			e.style.backgroundPositionY = `${NODE_EDITOR_GRID / 2 + 10}px`;
+			e.style.backgroundPositionY = `${NODE_EDITOR_GRID / 2}px`;
 
 			appendHTMLArrayState(
 				e,
@@ -162,5 +173,9 @@ const createMenuBar = (project: IReadonlyState<Api.Project>) =>
 window.addEventListener("load", async () => {
 	const project = new ConstState(await getProject("test"));
 	appendHTMLState(document.body, createMenuBar(project));
-	appendHTMLState(document.body, createNodeEditor(project));
+	document.body.append(
+		E("main", (e) => {
+			appendHTMLState(e, createNodeEditor(project));
+		}),
+	);
 });
