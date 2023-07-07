@@ -6,8 +6,11 @@
 :root {
 	--style-background-color: #0d1117;
 	--style-foreground-color: #eeeeee;
+	
+	--style-menu-background-color: #050608;
+	--style-menu-border-color: #f0f6fc1a;
 
-	--style-interact-bar-background-color: #262b31;
+	--style-interact-bar-background-color: #1a1e22;
 	--style-interact-foreground-color: #c9d1d9;
 	
 	--style-interact-background-color: #30363d;

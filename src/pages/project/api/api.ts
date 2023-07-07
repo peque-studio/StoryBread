@@ -11,24 +11,31 @@ export declare namespace Api {
 		}
 
 		export interface Node {
-			pos: IState<Pos, Pos>;
+			pos: IState<Pos>;
 		}
 	}
 
+	export interface NodeConnection {
+		type: IState<"direct" | "transitive">;
+		direction: "forward" | "backward";
+		targetId: string;
+	}
+
 	export interface NodeContent {
-		text: IState<string, string>;
+		text: IState<string>;
+		connectsTo: ArrayState<NodeConnection>;
 	}
 
 	export interface Node {
 		id: IReadonlyState<UUID>;
-		name: IState<string, string>;
+		name: IState<string>;
 		content: NodeContent;
 		ui: UI.Node;
 	}
 
 	export interface Project {
 		id: IReadonlyState<string>;
-		name: IState<string, string>;
+		name: IState<string>;
 		nodes: ArrayState<Node>;
 		socket: Socket;
 		created: IReadonlyState<Date>;

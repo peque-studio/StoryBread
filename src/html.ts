@@ -1,15 +1,17 @@
-import { IReadonlyState, IState, effectNow } from "./state";
+import { ArrayState, IReadonlyState, IState, effectNow } from "./state";
+import { arrayDiff } from "./util";
 
 /** Shorthand for {@link document.querySelector} */
 export const Q = <T extends HTMLElement>(s: string) => document.querySelector<T>(s);
 
-type _MatchSelector<T extends string> = T extends `${infer P extends keyof HTMLElementTagNameMap}.${string}`
-	? P
-	: T extends `${infer P extends keyof HTMLElementTagNameMap}#${string}`
-	? P
-	: T extends keyof HTMLElementTagNameMap
-	? T
-	: never;
+type _MatchSelector<T extends string> =
+	T extends `${infer P extends keyof HTMLElementTagNameMap}.${string}`
+		? P
+		: T extends `${infer P extends keyof HTMLElementTagNameMap}#${string}`
+		? P
+		: T extends keyof HTMLElementTagNameMap
+		? T
+		: never;
 
 type _SelectorInfo = {
 	elem: string;
@@ -69,10 +71,13 @@ export interface DragConfig {
 	onDragStart?: () => void;
 	onDragEnd?: () => void;
 	onDrag?: () => void;
+	dragWith?: HTMLElement;
 }
 
 /** Make an element draggable. Changes `e.style.left` and `e.style.top`. */
 export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
+	cfg.dragWith ??= e;
+
 	effectNow(cfg.pos, ({ x, y }) => {
 		// We don't have to check for cfg.enabled because:
 		// a) that means that cfg.pos.get() and the styles will be out of sync.
@@ -81,7 +86,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 		e.style.top = `${y}px`;
 	});
 
-	e.addEventListener("mousedown", (ev) => {
+	cfg.dragWith.addEventListener("mousedown", (ev) => {
 		if (cfg.enabled && !cfg.enabled.get()) return;
 
 		const offset = {
@@ -115,5 +120,44 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 			},
 			{ once: true },
 		);
+	});
+};
+
+export const appendHTMLState = (
+	to: HTMLElement,
+	state: IReadonlyState<ChildNode>,
+) => {
+	to.appendChild(state.get());
+	state.effect((newEl, oldEl) => oldEl.replaceWith(newEl));
+};
+
+export const appendHTMLArrayState = <T>(
+	to: HTMLElement,
+	state: IReadonlyState<T[]>,
+	eq: (a: T, b: T) => boolean,
+	getElement: (e: T) => HTMLElement,
+) => {
+	effectNow(state, (news, olds) => {
+		const { added, removed } = arrayDiff(news, olds ?? [], eq);
+
+		const toBeRemoved = new Set(removed.map((r) => r.index));
+		// const toBeAdded = new Set(added.map(r => r.index));
+
+		for (let i = 0; i < to.children.length; i++) {
+			if (toBeRemoved.has(i)) to.children[i].remove();
+		}
+
+		// for (let i = 0, j = 0; i < to.children.length; i++) {
+		// 	if (toBeAdded.has(i)) j++;
+		// 	to.children[i].setAttribute('data-array-idx', `${i + j}`);
+		// }
+
+		for (const { index, item } of added) {
+			if (index === 0) {
+				to.prepend(getElement(item));
+			} else {
+				to.children[index - 1].after(getElement(item));
+			}
+		}
 	});
 };

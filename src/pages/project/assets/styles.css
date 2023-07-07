@@ -5,15 +5,13 @@
 }
 
 .node {
-	position: relative;
+	position: absolute;
 	display: flex;
 	width: 100px;
 	height: 100px;
-	overflow: hidden;
-	flex-direction: column;
 }
 
-.node-name {
+.node-bar {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -23,10 +21,59 @@
 	font-size: 14px;
 }
 
-.node-body {
+.node-content {
 	padding: 5px;
 	font-size: 10px;
 	text-align: center;
+}
+
+.node-body {
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	overflow: visible;
+	overflow: hidden;
+}
+
+.node-pin {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 3;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--style-interact-bar-background-color);
+	border: 1px solid var(--style-interact-hover-border-color);
+}
+
+.node-pin:hover {
+	background: var(--style-interact-background-color);
+}
+
+.node-pin.input {
+	left: -3px;
+}
+
+.node-pin.output {
+	right: -3px;
+}
+
+.node-con {
+	position: absolute;
+	top: 0; bottom: 0;
+	left: 0; right: 0;
+	overflow: visible;
+}
+
+.node-con > svg {
+	width: 100%;
+	height: 100%;
+}
+.menu-bar {
+	padding: 0.5rem;
+	background-color: var(--style-menu-background-color);
+	border-bottom: 1px solid var(--style-menu-border-color);
 }
 
 /* button {

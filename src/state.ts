@@ -7,7 +7,7 @@ export interface IReadonlyState<V> {
 }
 
 /** A state. Can be updated. */
-export interface IState<V, T> extends IReadonlyState<V> {
+export interface IState<V, T = V> extends IReadonlyState<V> {
 	update(trans: T): void;
 }
 
@@ -65,7 +65,10 @@ export class ArrayState<E> extends State<E[], { add: E } | { remove: E }> {
 export const HTMLState = ConstState<HTMLElement>;
 
 /** Bind the effect callback and call it immediately (with `old = undefined`). */
-export const effectNow = <V>(s: IReadonlyState<V>, effect: EffectFunc<V, V | undefined>) => {
+export const effectNow = <V>(
+	s: IReadonlyState<V>,
+	effect: EffectFunc<V, V | undefined>,
+) => {
 	s.effect(effect);
 	effect(s.get(), undefined);
 };
@@ -84,4 +87,53 @@ export const dependentState = <V, U>(
 	const dependentState = new BasicState(getValue(state.get(), undefined));
 	state.effect((value, old) => dependentState.update(getValue(value, old)));
 	return dependentState;
+};
+
+/**
+ * Create a state that depends on another state,
+ * but times the updates of the former to be less frequent.
+ * So if two updates of the original state happen in the span
+ * of `delay`ms, only one update will happen on the dependent state.
+ * @todo generate an update that happens once after multiple original updates
+ *       so that the depenent state doesn't show an outdated value for ever
+ *       if no more original updates happen.
+ * @todo come up with a better name.
+ **/
+export const lazyState = <T>(
+	state: IReadonlyState<T>,
+	delay = 500,
+): IReadonlyState<T> => {
+	const dependent = new BasicState(state.get());
+	let last = state.get(); // TODO: use the last variable.
+	let updated = true;
+
+	state.effect((value) => {
+		last = value;
+		if (updated) {
+			updated = false;
+			setTimeout(() => {
+				dependent.update(value);
+				updated = true;
+			}, delay);
+		}
+	});
+
+	return dependent;
+};
+
+type ExtractTypeValue<T> = T extends IReadonlyState<infer U> ? U : never;
+type StatelessArray<S extends IReadonlyState<any>[]> = {
+	[P in keyof S]: ExtractTypeValue<S[P]>;
+};
+
+export const joinedState = <S extends IReadonlyState<any>[],>(
+	...states: S
+): IReadonlyState<StatelessArray<S>> => {
+	const dependent = new BasicState(states.map((s) => s.get()) as StatelessArray<S>);
+	states.forEach((state, index) => {
+		state.effect(() => {
+			dependent.update(states.map((other) => other.get()) as StatelessArray<S>);
+		});
+	});
+	return dependent;
 };

@@ -1,6 +1,15 @@
 import { IReadonlyState } from "./state";
 
-export type Primitive = bigint | boolean | null | number | string | symbol | undefined | Date | Function;
+export type Primitive =
+	| bigint
+	| boolean
+	| null
+	| number
+	| string
+	| symbol
+	| undefined
+	| Date
+	| Function;
 
 type IsStateful_<P, T> = T extends IReadonlyState<unknown> ? P : never;
 type ToStateless_<T> = T extends IReadonlyState<infer V>
@@ -20,3 +29,12 @@ export type StateInitialProps<T> = {
 export type StatelessProps<T> = {
 	[P in keyof T]: ToStateless_<T[P]>;
 };
+
+export const arrayDiff = <T>(news: T[], olds: T[], eq: (a: T, b: T) => boolean) => ({
+	added: news
+		.filter((newItem) => !olds.find((oldItem) => eq(newItem, oldItem)))
+		.map((item, index) => ({ index, item })),
+	removed: olds
+		.filter((oldItem) => !news.find((newItem) => eq(newItem, oldItem)))
+		.map((item, index) => ({ index, item })),
+});

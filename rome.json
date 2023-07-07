@@ -9,6 +9,9 @@
 			"recommended": true,
 			"style": {
 				"noNonNullAssertion": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
 			}
 		}
 	},
@@ -17,7 +20,7 @@
 		"formatWithErrors": false,
 		"indentStyle": "tab",
 		"indentSize": 2,
-		"lineWidth": 110,
+		"lineWidth": 85,
 		"ignore": []
 	}
 }

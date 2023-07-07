@@ -549,6 +549,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@svgdotjs/svg.js@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@svgdotjs/svg.js@npm:3.2.0"
+  checksum: 73e34a50ca5b413a6522e37d5bdfaccffa9a29aa76fa2d6c2b81afffc0604683635e45c85db2eeffaf7e78744d9736c7b2bf627b428c905d862a3527734eccaf
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -5324,6 +5331,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybread@workspace:."
   dependencies:
+    "@svgdotjs/svg.js": ^3.2.0
     autoprefixer: ^10.4.14
     css-loader: ^6.8.1
     cssnano: ^6.0.1
