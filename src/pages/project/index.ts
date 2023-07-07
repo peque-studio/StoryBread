@@ -8,11 +8,12 @@ import State, {
 } from "../../state";
 import { Api, globalApi } from "./api/api";
 import { E, Q, makeDraggable } from "../../html";
-import "./assets/styles.css";
 import { getProject } from "./api/impl";
+import "./assets/styles.css";
+import "../common.css";
 
 const createNode = (node: Api.Node) => {
-	return E(`div.node#${node.id}`, (e) => {
+	return E(`div.node.interact#${node.id}`, (e) => {
 		makeDraggable(e, { pos: node.ui.pos });
 		e.append(
 			E("span.node-name", (nameEl) => {
@@ -21,9 +22,9 @@ const createNode = (node: Api.Node) => {
 				});
 			}),
 			E("div.node-body", (bodyEl) => {
-				// effectNow(node.name, (name) => {
-				// 	bodyEl.textContent = name;
-				// });
+				effectNow(node.content.text, (text) => {
+					bodyEl.textContent = text;
+				});
 			}),
 		);
 	});
@@ -44,6 +45,14 @@ const createNodeEditor = (project: IReadonlyState<Api.Project>) => {
 					Q(`#node_${node.id}`)?.remove();
 				}
 			});
+			e.append(
+				E("button", (buttonEl) => {
+					buttonEl.textContent = "Add Node";
+				}),
+				E("button.important", (buttonEl) => {
+					buttonEl.textContent = "Test";
+				}),
+			);
 		});
 	});
 };

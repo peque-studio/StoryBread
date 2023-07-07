@@ -15,9 +15,14 @@ export declare namespace Api {
 		}
 	}
 
+	export interface NodeContent {
+		text: IState<string, string>;
+	}
+
 	export interface Node {
 		id: IReadonlyState<UUID>;
 		name: IState<string, string>;
+		content: NodeContent;
 		ui: UI.Node;
 	}
 

@@ -21,6 +21,7 @@ class Project implements Api.Project {
 					<Api.Node>{
 						id: new BasicState(n.id),
 						name: new BasicState(n.name),
+						content: { text: new BasicState(n.content.text) },
 						ui: { pos: new BasicState(n.ui.pos) },
 					},
 			),
@@ -39,7 +40,8 @@ export async function getProject(id: string): Promise<Project> {
 				{
 					id: "0",
 					name: "Node #1",
-					ui: { pos: { x: 10, y: 20 } },
+					content: { text: "Hello, World! Lorem ipsum dolor sit amet" },
+					ui: { pos: { x: 100, y: 200 } },
 				},
 			],
 			created: new Date(),

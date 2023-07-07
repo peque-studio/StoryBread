@@ -20,7 +20,7 @@ type _SelectorInfo = {
 const _extractSelector = (s: string) => {
 	const sel: _SelectorInfo = { classes: [], id: undefined, elem: "" };
 	sel.id = s.match(/#[\w_\-]+/)?.[0].slice(1);
-	sel.classes = s.match(/\.[\w_\-]+/)?.map((m) => m.slice(1)) ?? [];
+	sel.classes = s.match(/\.[\w_\-]+/g)?.map((m) => m.slice(1)) ?? [];
 	sel.elem = s.match(/([\w_\-]+)(\.|#)?/)?.[1]!;
 	return sel;
 };
