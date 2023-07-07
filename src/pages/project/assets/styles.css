@@ -7,8 +7,8 @@
 .node {
 	position: absolute;
 	display: flex;
-	width: 100px;
-	height: 100px;
+	/* width: 100px; -- in JS
+	height: 100px; */
 }
 
 .node-bar {

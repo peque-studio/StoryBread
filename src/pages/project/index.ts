@@ -31,17 +31,43 @@ type NodeConnection = {
 	to: Api.Node;
 };
 
+const smoothLineDef = (x0: number, y0: number, x1: number, y1: number): string =>
+	`M${x0} ${y0}
+	 C${x0 + (x1 - x0) / 2} ${y0}
+	  ${x1 - (x1 - x0) / 2} ${y1}
+		${x1} ${y1}`;
+
 const createNodeConnection = (con: NodeConnection) =>
 	E(`div.node-con#${con.from.id}-${con.to.id}`, (e) => {
-		const line = SVG().addTo(e).line();
-		line.stroke({ width: 2, color: "#eee" });
+		const path = SVG().addTo(e).path();
+
+		path.fill("transparent");
+
+		effectNow(con.type, (type) =>
+			path.stroke({
+				width: 2,
+				color: "#eee",
+				...(type === "transitive" ? { dasharray: "4 4" } : {}),
+			}),
+		);
+
 		effectNow(joinedState(con.from.ui.pos, con.to.ui.pos), ([fromPos, toPos]) => {
-			line.plot(fromPos.x, fromPos.y, toPos.x, toPos.y);
+			path.plot(
+				smoothLineDef(
+					fromPos.x + NODE_WIDTH,
+					fromPos.y + NODE_HEIGHT / 2,
+					toPos.x,
+					toPos.y + NODE_HEIGHT / 2,
+				),
+			);
 		});
 	});
 
 const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) => {
 	return E(`div.node#${node.id}`, (e) => {
+		e.style.width = `${NODE_WIDTH}px`;
+		e.style.height = `${NODE_HEIGHT}px`;
+
 		const nodeBody = E("div.node-body.interact", (bodyEl) => {
 			bodyEl.append(
 				E("span.node-bar", (barEl) => {
@@ -68,7 +94,9 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 		appendHTMLArrayState(
 			parent,
 			dependentState(node.content.connectsTo, (a) =>
-				a.filter((con) => con.direction !== "forward"),
+				// everything hangs if you do === "forward"
+				// HACK: WTF
+				a.filter((con) => con.direction === "backward"),
 			),
 			(a, b) =>
 				a.direction === b.direction &&
@@ -77,8 +105,8 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 			(con) =>
 				createNodeConnection({
 					type: con.type,
-					from: node,
-					to: project.nodes.get().find((n) => n.id.get() === con.targetId)!,
+					from: project.nodes.get().find((n) => n.id.get() === con.targetId)!,
+					to: node,
 				}),
 		);
 	});
