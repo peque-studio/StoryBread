@@ -24,12 +24,16 @@ import { SVG } from "@svgdotjs/svg.js";
 
 const NODE_WIDTH = 100;
 const NODE_HEIGHT = 100;
+const NODE_EDITOR_GRID = NODE_WIDTH / 4;
 
 type NodeConnection = {
 	type: IState<"direct" | "transitive">;
 	from: Api.Node;
 	to: Api.Node;
 };
+
+const spanToGrid = (v: number) =>
+	Math.round(v / NODE_EDITOR_GRID) * NODE_EDITOR_GRID;
 
 const smoothLineDef = (x0: number, y0: number, x1: number, y1: number): string =>
 	`M${x0} ${y0}
@@ -83,7 +87,20 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 			);
 		});
 
-		makeDraggable(e, { pos: node.ui.pos, dragWith: nodeBody });
+		makeDraggable(e, {
+			pos: node.ui.pos,
+			dragWith: nodeBody,
+			onDragStart() {
+				e.style.transform = "scale(105%)";
+			},
+			onDragEnd() {
+				e.style.transform = "scale(1)";
+				node.ui.pos.update({
+					x: spanToGrid(node.ui.pos.get().x),
+					y: spanToGrid(node.ui.pos.get().y),
+				});
+			},
+		});
 
 		e.append(
 			nodeBody,
@@ -115,6 +132,10 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 const createNodeEditor = (project: IReadonlyState<Api.Project>) =>
 	dependentState(project, (project) => {
 		return E("div.node-editor", (e) => {
+			e.style.backgroundSize = `${NODE_EDITOR_GRID}px ${NODE_EDITOR_GRID}px`;
+			e.style.backgroundPositionX = `${NODE_EDITOR_GRID / 2}px`;
+			e.style.backgroundPositionY = `${NODE_EDITOR_GRID / 2 + 10}px`;
+
 			appendHTMLArrayState(
 				e,
 				project.nodes,

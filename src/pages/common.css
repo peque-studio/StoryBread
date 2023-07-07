@@ -6,6 +6,8 @@
 :root {
 	--style-background-color: #0d1117;
 	--style-foreground-color: #eeeeee;
+
+	--style-grid-color: #f0f6fc10;
 	
 	--style-menu-background-color: #050608;
 	--style-menu-border-color: #f0f6fc1a;
