@@ -17,9 +17,6 @@ import {
 	makeDraggable,
 } from "../../html";
 import { getProject } from "./api/impl";
-import "./assets/styles.scss";
-import "@primer/css/core/index.scss";
-import "../common.scss";
 import { SVG } from "@svgdotjs/svg.js";
 
 const NODE_WIDTH = 100;
