@@ -1,0 +1,91 @@
+
+*, ::after, ::before {
+	box-sizing: border-box;
+}
+
+:root {
+	--style-background-color: #0d1117;
+	--style-foreground-color: #eeeeee;
+
+	--style-grid-color: #f0f6fc10;
+	
+	--style-menu-background-color: #050608;
+	--style-menu-border-color: #f0f6fc1a;
+
+	--style-interact-bar-background-color: #1a1e22;
+	--style-interact-foreground-color: #c9d1d9;
+	
+	--style-interact-background-color: #21262d;
+	--style-interact-hover-background-color: #30363d;
+	--style-interact-active-background-color: #282e33;
+	
+	--style-interact-border-color: #f0f6fc1a;
+	--style-interact-hover-border-color: #f0f6fc4d;
+	
+	--style-important-background-color: #317034;
+	--style-important-hover-background-color: #317034;
+	--style-important-foreground-color: #c9d1d9;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: var(--style-background-color);
+	color: var(--style-foreground-color);
+	font-family: system-ui, sans-serif;
+}
+
+button, .btn, .interact {
+	background-color: var(--style-interact-background-color);
+	border: solid 1px var(--style-interact-border-color);
+	color: var(--style-foreground-color);
+	border-radius: 6px;
+	cursor: pointer;
+	user-select: none;
+	transition-property: color, background-color, box-shadow, border-color;
+	transition-duration: 80ms;
+	transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+button:hover, .btn:hover, .interact:hover {
+	text-decoration: none;
+	background-color: var(--style-interact-hover-background-color);
+	border: solid 1px var(--style-interact-hover-border-color);
+	transition-duration: .1s;
+}
+
+button, .btn {
+	display: inline-block;
+	padding: 5px 16px;
+	line-height: 20px;
+	font-size: 14px;
+	vertical-align: middle;
+	white-space: nowrap;
+	font-weight: 500;
+}
+
+button:focus, .btn:focus { outline: none; }
+button:active, .btn:active {
+	background-color: var(--style-interact-active-background-color);
+	border: solid 1px var(--style-interact-border-color);
+}
+
+button.important, .btn.important {
+	background:
+		linear-gradient(
+			#f0f6fc1a,
+			#00000000
+		),
+		var(--style-important-background-color);
+}
+
+button.important:active, .btn.important:active {
+	background:
+		linear-gradient(
+			#00000000,
+			#f0f6fc1a
+		),
+		var(--style-important-background-color);
+}

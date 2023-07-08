@@ -101,20 +101,6 @@ main {
 	padding: 0.5rem;
 	background-color: var(--style-menu-background-color);
 	border-bottom: 1px solid var(--style-menu-border-color);
+	display: flex;
+	gap: 0.5rem;
 }
-
-/* button {
-	display: inline-block;
-	
-	color: var(--style-foreground-color);
-	
-	padding: 5px 16px;
-	line-height: 20px;
-	vertical-align: middle;
-	white-space: nowrap;
-	user-select: none;
-	font-weight: 500;
-	cursor: pointer;
-
-	margin: 0.5rem;
-} */

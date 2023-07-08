@@ -19,6 +19,9 @@ import {
 import { getProject } from "./api/impl";
 import { SVG } from "@svgdotjs/svg.js";
 
+import "./assets/styles.css";
+import "../common.css";
+
 const NODE_WIDTH = 100;
 const NODE_HEIGHT = 100;
 const NODE_EDITOR_GRID = NODE_WIDTH / 4;
@@ -170,6 +173,8 @@ const createMenuBar = (project: IReadonlyState<Api.Project>) =>
 window.addEventListener("load", async () => {
 	const project = new ConstState(await getProject("test"));
 	appendHTMLState(document.body, createMenuBar(project));
+	document.documentElement.setAttribute('data-color-mode', 'dark');
+	document.documentElement.setAttribute('data-dark-theme', 'dark');
 	document.body.append(
 		E("main", (e) => {
 			appendHTMLState(e, createNodeEditor(project));
