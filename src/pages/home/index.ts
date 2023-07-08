@@ -1,2 +1,2 @@
 import "./assets/styles.scss";
-import "../common.css";
+import "../common.scss";

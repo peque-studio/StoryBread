@@ -23,21 +23,18 @@ module.exports = {
 	module: {
 		rules: [
 			{ // CSS
-				test: /\.(scss|css)$/,
+				test: /\.scss$/,
 				exclude: /node_modules/,
 				use: [
-					{
-						loader: MiniCssExtractPlugin.loader
-					},
+					MiniCssExtractPlugin.loader,
 					{
 						loader: 'css-loader',
 						options: {
 							importLoaders: 1,
 						}
 					},
-					{
-						loader: 'postcss-loader',
-					},
+					'postcss-loader',
+					'sass-loader'
 				]
 			},
 			{ // Typescript
