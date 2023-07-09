@@ -28,6 +28,7 @@ class Project implements Api.Project {
 					<Api.Node>{
 						id: new BasicState(n.id),
 						name: new BasicState(n.name),
+						selected: new BasicState(n.selected),
 						content: {
 							text: new BasicState(n.content.text),
 							connectsTo: new ArrayState(
@@ -80,6 +81,7 @@ export async function getProject(id: string): Promise<Project> {
 				{
 					id: "0",
 					name: "Node #1",
+					selected: false,
 					content: {
 						text: "Hello, World! Lorem ipsum dolor sit amet",
 						connectsTo: [
@@ -95,6 +97,7 @@ export async function getProject(id: string): Promise<Project> {
 				{
 					id: "1",
 					name: "Node #2",
+					selected: false,
 					content: {
 						text: "Connect to me please :)",
 						connectsTo: [

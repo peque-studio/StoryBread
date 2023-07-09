@@ -82,10 +82,10 @@ export const effectNow = <V>(
  **/
 export const dependentState = <V, U>(
 	state: IReadonlyState<V>,
-	getValue: (value: V, old: V | undefined) => U,
+	getValue: (value: V, old: V | undefined, oldThis: U | undefined) => U,
 ): IReadonlyState<U> => {
-	const dependentState = new BasicState(getValue(state.get(), undefined));
-	state.effect((value, old) => dependentState.update(getValue(value, old)));
+	const dependentState = new BasicState(getValue(state.get(), undefined, undefined));
+	state.effect((value, old) => dependentState.update(getValue(value, old, dependentState.get())));
 	return dependentState;
 };
 

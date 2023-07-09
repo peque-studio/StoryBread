@@ -13,6 +13,43 @@ main {
 	padding: 1rem;
 }
 
+.node-editor-wrap {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.content-editor {
+	position: absolute;
+	width: 40vw;
+	right: 0;
+	top: 0;
+	height: 100%;
+	padding: 1rem;
+	border: 1px solid var(--style-interact-border-color);
+	border-radius: 6px;
+	background-color: var(--style-interact-background-color);
+	display: flex;
+	flex-direction: column;
+}
+
+.content-editor-header {
+	width: 100%;
+	flex-shrink: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	gap: 1rem;
+}
+
+.content-editor-header > button {
+	flex-shrink: 1;
+}
+
+.content-editor-header > input {
+	flex-grow: 1;
+}
+
 .node-editor {
 	position: relative;
 	width: 100%;
@@ -35,14 +72,24 @@ main {
 	/* height: 100px; -- in JS */
 }
 
+.node.selected > .node-body {
+	border: 2px solid #78a3b1a4;
+}
+
 .node-bar {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	display: block;
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: center; */
 	background: var(--style-interact-bar-background-color);
 	border-bottom: solid 1px var(--style-interact-border-color);
-	padding: 5px 16px;
+	padding: 5px 5px;
 	font-size: 14px;
+	width: 100%;
+	white-space: nowrap;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .node-content {
@@ -51,12 +98,12 @@ main {
 	text-align: center;
 }
 
-.node-body {
+.node > .node-body {
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
-	overflow: visible;
 	overflow: hidden;
+	padding: 0;
 }
 
 .node-pin {

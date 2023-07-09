@@ -1,5 +1,6 @@
 import State, {
 	ArrayState,
+	BasicState,
 	ConstState,
 	HTMLState,
 	IReadonlyState,
@@ -21,6 +22,8 @@ import { SVG } from "@svgdotjs/svg.js";
 
 import "./assets/styles.css";
 import "../common.css";
+import createIcon from "../../icons";
+import * as feather from "feather-icons";
 
 const NODE_WIDTH = 100;
 const NODE_HEIGHT = 100;
@@ -40,6 +43,35 @@ const smoothLineDef = (x0: number, y0: number, x1: number, y1: number): string =
 	 C${x0 + (x1 - x0) / 2} ${y0}
 	  ${x1 - (x1 - x0) / 2} ${y1}
 		${x1} ${y1}`;
+
+const createContentEditor = (node: IReadonlyState<Api.Node | null>) => {
+	const state = new BasicState<HTMLElement | null>(null);
+	effectNow(node, (node) => {
+		if (!node) {
+			state.update(null);
+			return;
+		}
+		
+		state.update(E("div.content-editor", (e) => {
+			e.append(
+				E("div.content-editor-header", (e) => {
+					e.append(
+						E("button.icon", (buttonEl) => {
+							buttonEl.append(createIcon(feather.icons.x, { width: 16, height: 16 }));
+							buttonEl.onclick = () => state.update(null);
+						}),
+						E("input", (inputEl) => {
+							inputEl.placeholder = "Node name...";
+							if (node?.name) effectNow(node.name, (name) => { inputEl.value = name; });
+							inputEl.oninput = () => node?.name.update(inputEl.value);
+						}),
+					);
+				})
+			);
+		}));
+	});
+	return state;
+};
 
 const createNodeConnection = (con: NodeConnection) =>
 	E(`div.node-con#${con.from.id}-${con.to.id}`, (e) => {
@@ -78,10 +110,19 @@ const createNodeConnection = (con: NodeConnection) =>
 		});
 	});
 
-const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) => {
+interface NodeCallbacks {
+	onOpen?: () => void;
+};
+
+const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node, cbs: NodeCallbacks = {}) => {
 	return E(`div.node#${node.id}`, (e) => {
 		e.style.width = `${NODE_WIDTH}px`;
 		e.style.height = `${NODE_HEIGHT}px`;
+
+		effectNow(node.selected, (selected) => {
+			if (selected) e.classList.add('selected');
+			else e.classList.remove('selected');
+		})
 
 		const nodeBody = E("div.node-body.interact", (bodyEl) => {
 			bodyEl.append(
@@ -96,6 +137,11 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 					});
 				}),
 			);
+		});
+
+		e.addEventListener('click', (ev) => {
+			cbs.onOpen?.();
+			ev.stopPropagation();
 		});
 
 		makeDraggable(e, {
@@ -140,21 +186,36 @@ const createNode = (project: Api.Project, parent: HTMLElement, node: Api.Node) =
 	});
 };
 
-const createNodeEditor = (project: IReadonlyState<Api.Project>) =>
-	dependentState(project, (project) => {
-		return E("div.node-editor", (e) => {
-			e.style.backgroundSize = `${NODE_EDITOR_GRID}px ${NODE_EDITOR_GRID}px`;
-			e.style.backgroundPositionX = `${NODE_EDITOR_GRID / 2}px`;
-			e.style.backgroundPositionY = `${NODE_EDITOR_GRID / 2}px`;
-
-			appendHTMLArrayState(
-				e,
-				project.nodes,
-				(a, b) => a.id === b.id,
-				(node) => createNode(project, e, node),
-			);
+const createNodeEditorIn = (parent: HTMLElement, project: IReadonlyState<Api.Project>) =>
+	appendHTMLState(parent, dependentState(project, (project) => {
+		const selectedNode = new BasicState<Api.Node | null>(null);
+		selectedNode.effect((node, oldNode) => {
+			oldNode?.selected.update(false);
+			node?.selected.update(true);
 		});
-	});
+
+		return E("div.node-editor-wrap", (e) => {
+			e.append(E("div.node-editor", (e) => {
+				e.style.backgroundSize = `${NODE_EDITOR_GRID}px ${NODE_EDITOR_GRID}px`;
+				e.style.backgroundPositionX = `${NODE_EDITOR_GRID / 2}px`;
+				e.style.backgroundPositionY = `${NODE_EDITOR_GRID / 2}px`;
+
+				e.addEventListener('click', () => selectedNode.update(null));
+	
+				appendHTMLArrayState(
+					e,
+					project.nodes,
+					(a, b) => a.id === b.id,
+					(node) => createNode(project, e, node, {
+						onOpen() {
+							selectedNode.update(node);
+						}
+					}),
+				);
+			}));
+			appendHTMLState(e, createContentEditor(selectedNode));
+		});
+	}));
 
 const createMenuBar = (project: IReadonlyState<Api.Project>) =>
 	dependentState(project, (project) => {
@@ -173,11 +234,7 @@ const createMenuBar = (project: IReadonlyState<Api.Project>) =>
 window.addEventListener("load", async () => {
 	const project = new ConstState(await getProject("test"));
 	appendHTMLState(document.body, createMenuBar(project));
-	document.documentElement.setAttribute('data-color-mode', 'dark');
-	document.documentElement.setAttribute('data-dark-theme', 'dark');
 	document.body.append(
-		E("main", (e) => {
-			appendHTMLState(e, createNodeEditor(project));
-		}),
+		E("main", (e) => createNodeEditorIn(e, project)),
 	);
 });

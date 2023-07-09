@@ -34,7 +34,6 @@ if (buildMode === "build") {
   await esbuild.build(commonConfig);
 } else if (buildMode === "serve") {
   const ctx = await esbuild.context(commonConfig);
-  ctx.watch({});
   console.log("Serving on http://localhost:3000/");
   await ctx.serve({ servedir: './dist', port: 3000 });
 }

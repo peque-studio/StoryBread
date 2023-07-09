@@ -3,28 +3,59 @@
 	box-sizing: border-box;
 }
 
-:root {
-	--style-background-color: #0d1117;
-	--style-foreground-color: #eeeeee;
+@media (prefers-color-scheme: light) {
+	:root {
+		--style-background-color: #ffffff;
+		--style-foreground-color: #1f2328;
+	
+		--style-grid-color: #f0f6fc10;
+		
+		--style-menu-background-color: #f6f8fa;
+		--style-menu-border-color: #d0d7de;
+	
+		--style-interact-bar-background-color: #d9dcdf;
+		--style-interact-foreground-color: #24292f;
+		
+		--style-interact-background-color: #f6f8fa;
+		--style-interact-hover-background-color: #f3f4f6;
+		--style-interact-active-background-color: #ebecf0;
+		
+		--style-interact-border-color: #1f232826;
+		--style-interact-hover-border-color: #1f232826;
+		--style-interact-active-border-color: #1f232826;
+		
+		--style-important-background-color: #3d9154;
+		--style-important-foreground-color: #ffffff;
+		--style-important-hover-background-color: #3d9154;
+		--style-important-foreground-color: #c9d1d9;
+	}
+}
 
-	--style-grid-color: #f0f6fc10;
+@media (prefers-color-scheme: dark) {
+	:root {
+		--style-background-color: #0d1117;
+		--style-foreground-color: #eeeeee;
 	
-	--style-menu-background-color: #050608;
-	--style-menu-border-color: #f0f6fc1a;
-
-	--style-interact-bar-background-color: #1a1e22;
-	--style-interact-foreground-color: #c9d1d9;
+		--style-grid-color: #f0f6fc10;
+		
+		--style-menu-background-color: #050608;
+		--style-menu-border-color: #f0f6fc1a;
 	
-	--style-interact-background-color: #21262d;
-	--style-interact-hover-background-color: #30363d;
-	--style-interact-active-background-color: #282e33;
-	
-	--style-interact-border-color: #f0f6fc1a;
-	--style-interact-hover-border-color: #f0f6fc4d;
-	
-	--style-important-background-color: #317034;
-	--style-important-hover-background-color: #317034;
-	--style-important-foreground-color: #c9d1d9;
+		--style-interact-bar-background-color: #1a1e22;
+		--style-interact-foreground-color: #c9d1d9;
+		
+		--style-interact-background-color: #21262d;
+		--style-interact-hover-background-color: #30363d;
+		--style-interact-active-background-color: #282e33;
+		
+		--style-interact-border-color: #f0f6fc1a;
+		--style-interact-hover-border-color: #f0f6fc4d;
+		--style-interact-active-border-color: #f0f6fc4d;
+		
+		--style-important-background-color: #317034;
+		--style-important-hover-background-color: #317034;
+		--style-important-foreground-color: #c9d1d9;
+	}
 }
 
 html, body {
@@ -37,42 +68,52 @@ html, body {
 	font-family: system-ui, sans-serif;
 }
 
-button, .btn, .interact {
+input, button, .btn, .text-inp, .interact {
+	display: inline-block;
+	padding: 5px 5px;
+	line-height: 20px;
+	font-size: 14px;
+	vertical-align: middle;
+	border-radius: 6px;
 	background-color: var(--style-interact-background-color);
 	border: solid 1px var(--style-interact-border-color);
-	color: var(--style-foreground-color);
-	border-radius: 6px;
-	cursor: pointer;
+	color: var(--style-interact-foreground-color);
 	user-select: none;
 	transition-property: color, background-color, box-shadow, border-color;
 	transition-duration: 80ms;
 	transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-button:hover, .btn:hover, .interact:hover {
+input:hover, button:hover, .btn:hover, .text-inp:hover, .interact:hover {
 	text-decoration: none;
 	background-color: var(--style-interact-hover-background-color);
 	border: solid 1px var(--style-interact-hover-border-color);
 	transition-duration: .1s;
 }
 
-button, .btn {
-	display: inline-block;
-	padding: 5px 16px;
-	line-height: 20px;
-	font-size: 14px;
-	vertical-align: middle;
-	white-space: nowrap;
-	font-weight: 500;
+input, .text-inp {
+	user-select: all;
 }
 
-button:focus, .btn:focus { outline: none; }
+button, .btn {
+	cursor: pointer;
+	font-weight: 500;
+	padding: 5px 16px;
+}
+
+button.icon, .btn.icon {
+	padding: 7px;
+	line-height: 0;
+}
+
+button:focus, .btn:focus, input:focus, .text-inp:focus { outline: none; }
 button:active, .btn:active {
 	background-color: var(--style-interact-active-background-color);
-	border: solid 1px var(--style-interact-border-color);
+	border: solid 1px var(--style-interact-active-border-color);
 }
 
 button.important, .btn.important {
+	color: var(--style-important-foreground-color);
 	background:
 		linear-gradient(
 			#f0f6fc1a,

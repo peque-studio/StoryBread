@@ -351,6 +351,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/feather-icons@npm:^4.29.1":
+  version: 4.29.1
+  resolution: "@types/feather-icons@npm:4.29.1"
+  checksum: a4ad06983069068aeb3b6e83c9e0422dbf90508dd8a36a50c20b98455f59cda85577972cdf0a0f4ce2cce1a9116fa4bca94150faefcc624acfeb6b24a81d9a5d
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:>=10.0.0":
   version: 20.3.3
   resolution: "@types/node@npm:20.3.3"
@@ -618,6 +625,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.2.5":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -707,6 +721,13 @@ __metadata:
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
   checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.1.3":
+  version: 3.31.1
+  resolution: "core-js@npm:3.31.1"
+  checksum: 14519213a63c55cf188bdd2f4dece54583feaf6b90e75d6c65e07f509cd487055bf64898aeda7c97c36029ac1ea2f2ed8e4b02281553f6a257e7143a32a14015
   languageName: node
   linkType: hard
 
@@ -1025,6 +1046,16 @@ __metadata:
   dependencies:
     reusify: ^1.0.4
   checksum: 0170e6bfcd5d57a70412440b8ef600da6de3b2a6c5966aeaf0a852d542daff506a0ee92d6de7679d1de82e644bce69d7a574a6c93f0b03964b5337eed75ada1a
+  languageName: node
+  linkType: hard
+
+"feather-icons@npm:^4.29.0":
+  version: 4.29.0
+  resolution: "feather-icons@npm:4.29.0"
+  dependencies:
+    classnames: ^2.2.5
+    core-js: ^3.1.3
+  checksum: 13f344736de25e7235fe9ab67c00c88e30396c0ff416614cbfeedf0159cac64890b04d2c704b005f2b1fab8ba79a8fd22e96ed2b30fbb3f9a41de0f491da8993
   languageName: node
   linkType: hard
 
@@ -2094,11 +2125,13 @@ __metadata:
     "@chialab/esbuild-plugin-html": ^0.17.3
     "@es-pack/esbuild-sass-plugin": ^2.0.1
     "@svgdotjs/svg.js": ^3.2.0
+    "@types/feather-icons": ^4.29.1
     buffer: ^5.5.0||^6.0.0
     esbuild: ^0.18.11
     esbuild-plugin-clean: ^1.0.1
     esbuild-plugin-progress: ^1.0.1
     esbuild-sass-plugin: ^2.10.0
+    feather-icons: ^4.29.0
     rome: 12.1.3
     sass: ^1.63.6
     socket.io: ^4.7.1

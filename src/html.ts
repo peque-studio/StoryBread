@@ -125,10 +125,14 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 
 export const appendHTMLState = (
 	to: HTMLElement,
-	state: IReadonlyState<ChildNode>,
+	state: IReadonlyState<ChildNode | null>,
 ) => {
-	to.appendChild(state.get());
-	state.effect((newEl, oldEl) => oldEl.replaceWith(newEl));
+	if (state.get() != null) to.appendChild(state.get()!);
+	state.effect((newEl, oldEl) => {
+		if (!oldEl && newEl) to.appendChild(newEl); // TODO: preserve location.
+		else if (oldEl && !newEl) oldEl.remove();
+		else if (oldEl && newEl) oldEl.replaceWith(newEl);
+	});
 };
 
 export const appendHTMLArrayState = <T>(

@@ -30,6 +30,7 @@ export declare namespace Api {
 		id: IReadonlyState<UUID>;
 		name: IState<string>;
 		content: NodeContent;
+		selected: IState<boolean>;
 		ui: UI.Node;
 	}
 
