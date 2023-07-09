@@ -1,3 +1,4 @@
+/*! TODO: Fix Styling... */
 
 *, ::after, ::before {
 	box-sizing: border-box;
@@ -16,6 +17,7 @@
 		--style-interact-bar-background-color: #d9dcdf;
 		--style-interact-foreground-color: #24292f;
 		
+		--style-input-background-color: #fdfdfd;
 		--style-interact-background-color: #f6f8fa;
 		--style-interact-hover-background-color: #f3f4f6;
 		--style-interact-active-background-color: #ebecf0;
@@ -44,6 +46,7 @@
 		--style-interact-bar-background-color: #1a1e22;
 		--style-interact-foreground-color: #c9d1d9;
 		
+		--style-input-background-color: #0d1117;
 		--style-interact-background-color: #21262d;
 		--style-interact-hover-background-color: #30363d;
 		--style-interact-active-background-color: #282e33;
@@ -68,20 +71,29 @@ html, body {
 	font-family: system-ui, sans-serif;
 }
 
-input, button, .btn, .text-inp, .interact {
-	display: inline-block;
+textarea, input, button, .btn, .text-inp, .text-area, .interact {
 	padding: 5px 5px;
-	line-height: 20px;
-	font-size: 14px;
-	vertical-align: middle;
 	border-radius: 6px;
 	background-color: var(--style-interact-background-color);
 	border: solid 1px var(--style-interact-border-color);
 	color: var(--style-interact-foreground-color);
-	user-select: none;
 	transition-property: color, background-color, box-shadow, border-color;
 	transition-duration: 80ms;
 	transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+textarea {
+	resize: none;
+	height: 100%;
+	background-color: var(--style-background-color);
+}
+
+input, button, .btn, .text-inp, .interact {
+	display: inline-block;
+	line-height: 20px;
+	font-size: 14px;
+	vertical-align: middle;
+	user-select: none;
 }
 
 input:hover, button:hover, .btn:hover, .text-inp:hover, .interact:hover {
@@ -106,7 +118,7 @@ button.icon, .btn.icon {
 	line-height: 0;
 }
 
-button:focus, .btn:focus, input:focus, .text-inp:focus { outline: none; }
+button:focus, .btn:focus, input:focus, .text-inp:focus, textarea:focus { outline: none; }
 button:active, .btn:active {
 	background-color: var(--style-interact-active-background-color);
 	border: solid 1px var(--style-interact-active-border-color);

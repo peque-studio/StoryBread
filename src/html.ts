@@ -165,3 +165,8 @@ export const appendHTMLArrayState = <T>(
 		}
 	});
 };
+
+export const bindToValue = <T>(el: HTMLElement & { value: T }, state: IState<T>) => {
+	effectNow(state, (value) => { el.value = value; });
+	el.addEventListener('input', () => state.update(el.value));
+};

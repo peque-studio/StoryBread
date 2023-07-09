@@ -15,6 +15,7 @@ import {
 	Q,
 	appendHTMLArrayState,
 	appendHTMLState,
+	bindToValue,
 	makeDraggable,
 } from "../../html";
 import { getProject } from "./api/impl";
@@ -51,7 +52,7 @@ const createContentEditor = (node: IReadonlyState<Api.Node | null>) => {
 			state.update(null);
 			return;
 		}
-		
+
 		state.update(E("div.content-editor", (e) => {
 			e.append(
 				E("div.content-editor-header", (e) => {
@@ -62,11 +63,11 @@ const createContentEditor = (node: IReadonlyState<Api.Node | null>) => {
 						}),
 						E("input", (inputEl) => {
 							inputEl.placeholder = "Node name...";
-							if (node?.name) effectNow(node.name, (name) => { inputEl.value = name; });
-							inputEl.oninput = () => node?.name.update(inputEl.value);
+							bindToValue(inputEl, node.name);
 						}),
 					);
-				})
+				}),
+				E("textarea", (textareaEl) => bindToValue(textareaEl, node.content.text)),
 			);
 		}));
 	});
