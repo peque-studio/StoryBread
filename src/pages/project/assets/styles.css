@@ -153,3 +153,31 @@ main {
 	display: flex;
 	gap: 0.5rem;
 }
+
+.content-editor-editor {
+  background: var(--style-input-background-color);
+  color: var(--style-foreground-color);
+  background-clip: padding-box;
+  border-radius: 4px;
+  border: 2px solid var(--style-interact-border-color);
+  padding: 5px 0;
+	height: 100%;
+}
+
+.ProseMirror p:first-child,
+.ProseMirror h1:first-child,
+.ProseMirror h2:first-child,
+.ProseMirror h3:first-child,
+.ProseMirror h4:first-child,
+.ProseMirror h5:first-child,
+.ProseMirror h6:first-child {
+  margin-top: 10px;
+}
+
+.ProseMirror {
+  padding: 4px 8px 4px 14px;
+  line-height: 1.2;
+  outline: none;
+}
+
+.ProseMirror p { margin-bottom: 1em }

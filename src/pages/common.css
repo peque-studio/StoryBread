@@ -29,7 +29,6 @@
 		--style-important-background-color: #3d9154;
 		--style-important-foreground-color: #ffffff;
 		--style-important-hover-background-color: #3d9154;
-		--style-important-foreground-color: #c9d1d9;
 	}
 }
 
@@ -85,7 +84,6 @@ textarea, input, button, .btn, .text-inp, .text-area, .interact {
 textarea {
 	resize: none;
 	height: 100%;
-	background-color: var(--style-background-color);
 }
 
 input, button, .btn, .text-inp, .interact {
@@ -96,15 +94,21 @@ input, button, .btn, .text-inp, .interact {
 	user-select: none;
 }
 
-input:hover, button:hover, .btn:hover, .text-inp:hover, .interact:hover {
+input:hover, button:hover, .btn:hover {
 	text-decoration: none;
 	background-color: var(--style-interact-hover-background-color);
 	border: solid 1px var(--style-interact-hover-border-color);
 	transition-duration: .1s;
 }
 
-input, .text-inp {
+textarea, input, .text-inp, .text-area {
 	user-select: all;
+	box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.04);
+	background-color: var(--style-input-background-color);
+}
+
+textarea:hover, input:hover, .text-inp:hover, .text-area:hover {
+	background-color: var(--style-input-background-color);
 }
 
 button, .btn {
