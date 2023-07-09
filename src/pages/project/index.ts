@@ -92,22 +92,18 @@ const createNodeConnection = (con: NodeConnection) =>
 		effectNow(joinedState(con.from.ui.pos, con.to.ui.pos), ([fromPos, toPos]) => {
 			const pad = 10;
 
-			// TODO: fix all of this:
+			path.plot(smoothLineDef(
+				fromPos.x + NODE_WIDTH,
+				fromPos.y + NODE_HEIGHT / 2,
+				toPos.x,
+				toPos.y + NODE_HEIGHT / 2
+			));
+			const bbox = path.bbox();
 
-			const coords = {
-				x0: pad / 2 + (toPos.x < fromPos.x ? fromPos.x - toPos.x : pad / 2),
-				y0: pad + (toPos.y < fromPos.y ? fromPos.y - toPos.y : 0),
-				x1: pad + toPos.x - fromPos.x - NODE_WIDTH,
-				y1: pad + (toPos.y < fromPos.y ? 0 : toPos.y - fromPos.y),
-			};
-
-			e.style.left = `${Math.min(fromPos.x + NODE_WIDTH, toPos.x) - pad}px`;
-			e.style.top = `${Math.min(fromPos.y, toPos.y) + NODE_HEIGHT / 2 - pad}px`;
-			svg.size(
-				Math.abs(toPos.x - fromPos.x - NODE_WIDTH) + pad * 2,
-				Math.abs(toPos.y - fromPos.y) + pad * 2,
-			);
-			path.plot(smoothLineDef(coords.x0, coords.y0, coords.x1, coords.y1));
+			svg.viewbox(bbox.x - pad, bbox.y - pad, bbox.w + pad * 2, bbox.h + pad * 2);
+			e.style.left = `${bbox.x - pad}px`;
+			e.style.top = `${bbox.y - pad}px`;
+			svg.size(bbox.w + pad * 2, bbox.h + pad * 2);
 		});
 	});
 
