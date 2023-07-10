@@ -1,40 +1,41 @@
 import { Socket, io } from "socket.io-client";
+import { Knot, KnotChoice, Project } from ".";
 import {
-	IReadonlyState,
-	IState,
 	ArrayState,
 	BasicState,
+	IReadonlyState,
+	IState,
 	effectNow,
 	lazyState,
 } from "../../../state";
-import { Api } from "./api";
 import { StateInitialProps, arrayDiff } from "../../../util";
 
-type ApiProjectRequest = StateInitialProps<Api.Project>;
+type ApiProjectRequest = StateInitialProps<ProjectImpl>;
 
-class Project implements Api.Project {
+class ProjectImpl implements ProjectImpl {
 	id: IReadonlyState<string>;
 	name: IState<string, string>;
-	nodes: ArrayState<Api.Node>;
+	knots: ArrayState<Knot>;
 	created: IReadonlyState<Date>;
 	modified: IReadonlyState<Date>;
 
 	constructor(public socket: Socket, o: ApiProjectRequest) {
 		this.id = new BasicState(o.id);
 		this.name = new BasicState(o.name);
-		this.nodes = new ArrayState(
-			o.nodes.map(
+		this.knots = new ArrayState(
+			o.knots.map(
 				(n) =>
-					<Api.Node>{
+					<Knot>{
 						id: new BasicState(n.id),
 						name: new BasicState(n.name),
 						selected: new BasicState(n.selected),
 						content: {
 							text: new BasicState(n.content.text),
-							connectsTo: new ArrayState(
-								n.content.connectsTo.map(
+							dialogue: new ArrayState<string>([]),
+							choices: new ArrayState(
+								n.content.choices.map(
 									(c) =>
-										<Api.NodeConnection>{
+										<KnotChoice>{
 											type: new BasicState(c.type),
 											direction: c.direction,
 											targetId: c.targetId,
@@ -53,38 +54,40 @@ class Project implements Api.Project {
 	}
 
 	private setupEffects() {
-		effectNow(this.nodes, (nodes, oldNodes) => {
-			const { added } = arrayDiff(nodes, oldNodes ?? [], (a, b) => a.id === b.id);
+		effectNow(this.knots, (knots, oldKnots) => {
+			const { added } = arrayDiff(knots, oldKnots ?? [], (a, b) => a.id === b.id);
 			for (const { item } of added) {
-				this.setupNodeEffects(item);
+				this.setupKnotEffects(item);
 			}
 		});
 	}
 
-	private setupNodeEffects(node: Api.Node) {
-		lazyState(node.ui.pos).effect((pos) => {
-			this.socket.emit?.("node-pos-update", node.id, pos);
+	private setupKnotEffects(knot: Knot) {
+		lazyState(knot.ui.pos).effect((pos) => {
+			this.socket.emit?.("knot-pos-update", knot.id, pos);
 		});
 
-		node.name.effect((name) => {
-			this.socket.emit?.("node-name-update", node.id, name);
+		knot.name.effect((name) => {
+			this.socket.emit?.("knot-name-update", knot.id, name);
 		});
 	}
 }
 
+/** the Project Api. */
 export async function getProject(id: string): Promise<Project> {
 	if (id === "test") {
-		return new Project({} as unknown as Socket, {
+		return new ProjectImpl({} as unknown as Socket, {
 			id: "test",
 			name: "Test Project",
-			nodes: [
+			knots: [
 				{
 					id: "0",
-					name: "Node #1",
+					name: "Knot #1",
 					selected: false,
 					content: {
 						text: "Hello, World! Lorem ipsum dolor sit amet",
-						connectsTo: [
+						dialogue: [],
+						choices: [
 							{
 								type: "direct",
 								direction: "forward",
@@ -96,11 +99,12 @@ export async function getProject(id: string): Promise<Project> {
 				},
 				{
 					id: "1",
-					name: "Node #2",
+					name: "Knot #2",
 					selected: false,
 					content: {
 						text: "Connect to me please :)",
-						connectsTo: [
+						dialogue: [],
+						choices: [
 							{
 								type: "direct",
 								direction: "backward",
@@ -117,5 +121,5 @@ export async function getProject(id: string): Promise<Project> {
 	}
 	const response = await fetch(`/api/project/${id}`);
 	const project = (await response.json()) as ApiProjectRequest;
-	return new Project(io(`/project/${id}`), project);
+	return new ProjectImpl(io(`/project/${id}`), project);
 }

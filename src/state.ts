@@ -16,27 +16,45 @@ export default class State<V, T> implements IState<V, T> {
 	private value: V;
 	private effects: EffectFunc<V>[];
 
-	constructor(initial: V, private handler: (trans: T, current: V) => V) {
+	constructor(
+		initial: V,
+		private handler: (trans: T, current: V) => V | Promise<V>,
+	) {
 		this.value = initial;
 		this.effects = [];
 	}
 
+	/**
+	 * Note: if the update handler is async, this will not wait for it.
+	 * Use {@link asyncUpdate} instead.
+	 **/
 	update(trans: T): void {
+		this.asyncUpdate(trans);
+	}
+
+	/** If the function is not async, nothing is awaited. */
+	async asyncUpdate(trans: T): Promise<void> {
 		const old = this.value;
-		this.value = this.handler(trans, old);
+		const value = this.handler(trans, old);
+
+		if (value instanceof Promise) this.value = await value;
+		else this.value = value;
+
 		this.effects.forEach((e) => e(this.value, old));
 	}
 
+	/** Get the current value. */
 	get(): V {
 		return this.value;
 	}
 
+	/** Add an effect handler. */
 	effect(func: EffectFunc<V>): void {
 		this.effects.push(func);
 	}
 }
 
-/** Simlest state possible. */
+/** Simplest state possible. (can't update it) */
 export class ConstState<V> extends State<V, never> {
 	constructor(value: V) {
 		super(value, (_, value) => value);
@@ -62,6 +80,7 @@ export class ArrayState<E> extends State<E[], { add: E } | { remove: E }> {
 	}
 }
 
+/** Shorthand for a const HTMLElement state. */
 export const HTMLState = ConstState<HTMLElement>;
 
 /** Bind the effect callback and call it immediately (with `old = undefined`). */
@@ -85,7 +104,9 @@ export const dependentState = <V, U>(
 	getValue: (value: V, old: V | undefined, oldThis: U | undefined) => U,
 ): IReadonlyState<U> => {
 	const dependentState = new BasicState(getValue(state.get(), undefined, undefined));
-	state.effect((value, old) => dependentState.update(getValue(value, old, dependentState.get())));
+	state.effect((value, old) =>
+		dependentState.update(getValue(value, old, dependentState.get())),
+	);
 	return dependentState;
 };
 
@@ -95,7 +116,7 @@ export const dependentState = <V, U>(
  * So if two updates of the original state happen in the span
  * of `delay`ms, only one update will happen on the dependent state.
  * @todo generate an update that happens once after multiple original updates
- *       so that the depenent state doesn't show an outdated value for ever
+ *       so that the depenent state doesn't show an outdated value forever
  *       if no more original updates happen.
  * @todo come up with a better name.
  **/
@@ -126,11 +147,14 @@ type StatelessArray<S extends IReadonlyState<any>[]> = {
 	[P in keyof S]: ExtractTypeValue<S[P]>;
 };
 
-export const joinedState = <S extends IReadonlyState<any>[],>(
+/**
+ * Create a state that depends on multiple states at once.
+ */
+export const joinedState = <S extends IReadonlyState<any>[]>(
 	...states: S
 ): IReadonlyState<StatelessArray<S>> => {
 	const dependent = new BasicState(states.map((s) => s.get()) as StatelessArray<S>);
-	states.forEach((state, index) => {
+	states.forEach((state) => {
 		state.effect(() => {
 			dependent.update(states.map((other) => other.get()) as StatelessArray<S>);
 		});

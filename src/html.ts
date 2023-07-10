@@ -125,7 +125,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 
 export const appendHTMLState = (
 	to: HTMLElement,
-	state: IReadonlyState<ChildNode | null>,
+	state: IReadonlyState<ChildKnot | null>,
 ) => {
 	if (state.get() != null) to.appendChild(state.get()!);
 	state.effect((newEl, oldEl) => {
@@ -167,6 +167,8 @@ export const appendHTMLArrayState = <T>(
 };
 
 export const bindToValue = <T>(el: HTMLElement & { value: T }, state: IState<T>) => {
-	effectNow(state, (value) => { el.value = value; });
-	el.addEventListener('input', () => state.update(el.value));
+	effectNow(state, (value) => {
+		el.value = value;
+	});
+	el.addEventListener("input", () => state.update(el.value));
 };

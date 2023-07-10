@@ -1,3 +1,5 @@
+@import "./pm-styles.css";
+
 body {
 	display: flex;
 	flex-direction: column;
@@ -13,7 +15,7 @@ main {
 	padding: 1rem;
 }
 
-.node-editor-wrap {
+.knot-editor-wrap {
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -21,7 +23,7 @@ main {
 
 .content-editor {
 	position: absolute;
-	width: 40vw;
+	width: 45vw;
 	right: 0;
 	top: 0;
 	height: 100%;
@@ -52,7 +54,16 @@ main {
 	flex-grow: 1;
 }
 
-.node-editor {
+.content-editor-editor {
+  background: var(--style-input-background-color);
+  color: var(--style-foreground-color);
+  background-clip: padding-box;
+  border-radius: 4px;
+  border: 2px solid var(--style-interact-border-color);
+	height: 100%;
+}
+
+.knot-editor {
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -67,18 +78,18 @@ main {
 		);
 }
 
-.node {
+.knot {
 	position: absolute;
 	display: flex;
 	/* width: 100px; -- in JS */
 	/* height: 100px; -- in JS */
 }
 
-.node.selected > .node-body {
-	border: 2px solid #78a3b1a4;
+.knot.selected > .knot-body {
+	border: 1px solid #78a3b1a4;
 }
 
-.node-bar {
+.knot-bar {
 	display: block;
 	/* display: flex; */
 	/* align-items: center; */
@@ -94,13 +105,13 @@ main {
 	text-overflow: ellipsis;
 }
 
-.node-content {
+.knot-content {
 	padding: 5px;
 	font-size: 10px;
 	text-align: center;
 }
 
-.node > .node-body {
+.knot > .knot-body {
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
@@ -108,7 +119,7 @@ main {
 	padding: 0;
 }
 
-.node-pin {
+.knot-pin {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -120,24 +131,24 @@ main {
 	border: 1px solid var(--style-interact-hover-border-color);
 }
 
-.node-pin:hover {
+.knot-pin:hover {
 	background: var(--style-interact-background-color);
 }
 
-.node-pin.input {
+.knot-pin.input {
 	left: -3px;
 }
 
-.node-pin.output {
+.knot-pin.output {
 	right: -3px;
 }
 
-.node-con {
+.knot-con {
 	position: absolute;
 	pointer-events: none;
 }
 
-.node-con > svg {
+.knot-con > svg {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -154,30 +165,3 @@ main {
 	gap: 0.5rem;
 }
 
-.content-editor-editor {
-  background: var(--style-input-background-color);
-  color: var(--style-foreground-color);
-  background-clip: padding-box;
-  border-radius: 4px;
-  border: 2px solid var(--style-interact-border-color);
-  padding: 5px 0;
-	height: 100%;
-}
-
-.ProseMirror p:first-child,
-.ProseMirror h1:first-child,
-.ProseMirror h2:first-child,
-.ProseMirror h3:first-child,
-.ProseMirror h4:first-child,
-.ProseMirror h5:first-child,
-.ProseMirror h6:first-child {
-  margin-top: 10px;
-}
-
-.ProseMirror {
-  padding: 4px 8px 4px 14px;
-  line-height: 1.2;
-  outline: none;
-}
-
-.ProseMirror p { margin-bottom: 1em }
