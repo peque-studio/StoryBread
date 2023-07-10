@@ -14,7 +14,7 @@ The project page opens a websocket connection.
 
 ## TODO
 
-- [ ] Understand Frontend/Backend structure.
+- [ ] Understand the Frontend/Backend structure.
   e.g. how does the backend invoke the bundler for the frontend? etc.
 - [ ] Make this repo a monorepo with `backend`, `frontend` and `common` packages.
 - [ ] Put the git pre-commit hook somewhere so it works for everyone. (invokes Rome's formatter)
