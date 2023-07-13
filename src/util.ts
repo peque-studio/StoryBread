@@ -1,4 +1,4 @@
-import { IReadonlyState } from "./state";
+import { IReadonlyState } from "statec";
 
 export type Primitive =
 	| bigint

@@ -1,4 +1,4 @@
-import { IReadonlyState, IState } from "../../../state";
+import { IReadonlyState, IState } from "statec";
 
 export declare namespace Api {
 	export type UUID = string;

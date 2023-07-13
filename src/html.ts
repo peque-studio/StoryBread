@@ -1,4 +1,4 @@
-import { ArrayState, IReadonlyState, IState, effectNow } from "./state";
+import { ArrayState, IReadonlyState, IState, effectNow } from "statec";
 import { arrayDiff } from "./util";
 
 /** Shorthand for {@link document.querySelector} */
@@ -125,7 +125,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 
 export const appendHTMLState = (
 	to: HTMLElement,
-	state: IReadonlyState<ChildKnot | null>,
+	state: IReadonlyState<ChildNode | null>,
 ) => {
 	if (state.get() != null) to.appendChild(state.get()!);
 	state.effect((newEl, oldEl) => {

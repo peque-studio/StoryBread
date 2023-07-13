@@ -1,6 +1,6 @@
 import { SVG } from "@svgdotjs/svg.js";
 import { E } from "../../../html";
-import { IState, effectNow, joinedState } from "../../../state";
+import { IState, effectNow, joinedState } from "statec";
 import * as api from "../api";
 import { KNOT_HEIGHT, KNOT_WIDTH } from "./projectEditor";
 

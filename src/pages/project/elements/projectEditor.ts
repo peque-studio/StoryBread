@@ -1,5 +1,5 @@
 import { E, appendHTMLArrayState, appendHTMLState } from "../../../html";
-import { BasicState, IReadonlyState, dependentState } from "../../../state";
+import { BasicState, IReadonlyState, dependentState } from "statec";
 import * as api from "../api";
 import createContentEditor from "./contentEditor";
 import createKnot from "./knot";

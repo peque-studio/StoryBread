@@ -1,5 +1,5 @@
 import { E, appendHTMLArrayState, makeDraggable } from "../../../html";
-import { dependentState, effectNow } from "../../../state";
+import { dependentState, effectNow } from "statec";
 import * as api from "../api";
 import createKnotChoice from "./choice";
 import { KNOT_HEIGHT, KNOT_WIDTH, coordToGrid } from "./projectEditor";

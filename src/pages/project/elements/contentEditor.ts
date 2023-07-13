@@ -1,7 +1,7 @@
 import * as feather from "feather-icons";
 import { E, bindToValue } from "../../../html";
 import createIcon from "../../../icons";
-import { BasicState, IReadonlyState, effectNow } from "../../../state";
+import { BasicState, IReadonlyState, effectNow } from "statec";
 import * as api from "../api";
 
 import { EditorState, Plugin } from "prosemirror-state";

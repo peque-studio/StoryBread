@@ -1,4 +1,4 @@
-import { ConstState } from "../../state";
+import { ConstState } from "statec";
 import { E, appendHTMLState } from "../../html";
 import * as api from "./api";
 import createMenuBar from "./elements/menuBar";

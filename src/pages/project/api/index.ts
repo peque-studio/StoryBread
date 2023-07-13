@@ -6,7 +6,7 @@ import {
 	IState,
 	effectNow,
 	lazyState,
-} from "../../../state";
+} from "statec";
 import { StateInitialProps, arrayDiff } from "../../../util";
 
 export type UUID = string;
