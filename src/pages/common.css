@@ -22,13 +22,13 @@
 		--style-interact-hover-background-color: #f3f4f6;
 		--style-interact-active-background-color: #ebecf0;
 		
-		--style-interact-border-color: #1f232826;
+		--style-interact-border-color: #787787;
 		--style-interact-hover-border-color: #1f232826;
 		--style-interact-active-border-color: #1f232826;
 		
-		--style-important-background-color: #3d9154;
+		--style-important-background-color: #9C92FD;
 		--style-important-foreground-color: #ffffff;
-		--style-important-hover-background-color: #3d9154;
+		--style-important-hover-background-color: #9C92FD;
 	}
 }
 
@@ -54,9 +54,9 @@
 		--style-interact-hover-border-color: #f0f6fc4d;
 		--style-interact-active-border-color: #f0f6fc4d;
 		
-		--style-important-background-color: #317034;
-		--style-important-hover-background-color: #317034;
-		--style-important-foreground-color: #c9d1d9;
+		--style-important-background-color: #9C92FD;
+		--style-important-hover-background-color: #9C92FD;
+		--style-important-foreground-color: #ffffff;
 	}
 }
 
@@ -72,7 +72,7 @@ html, body {
 
 textarea, input, button, .btn, .text-inp, .text-area, .interact {
 	padding: 5px 5px;
-	border-radius: 6px;
+	border-radius: 10px;
 	background-color: var(--style-interact-background-color);
 	border: solid 1px var(--style-interact-border-color);
 	color: var(--style-interact-foreground-color);

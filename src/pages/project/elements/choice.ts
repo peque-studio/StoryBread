@@ -23,10 +23,14 @@ export default function createKnotChoice(con: KnotChoice) {
 
 		path.fill("transparent");
 
-		effectNow(con.type, (type) =>
+		effectNow(joinedState(
+			con.type,
+			con.from.selected,
+			con.to.selected,
+		), ([type, fromSel, toSel]) =>
 			path.stroke({
 				width: 2,
-				color: "#eee",
+				color: (fromSel || toSel) ? "#9c92fd" : "#787787",
 				...(type === "transitive" ? { dasharray: "4 4" } : {}),
 			}),
 		);

@@ -24,18 +24,13 @@ export default function createKnot(
 		});
 
 		const knotBody = E("div.knot-body.interact", (bodyEl) => {
-			bodyEl.append(
-				E("span.knot-bar", (barEl) => {
-					effectNow(knot.name, (name) => {
-						barEl.textContent = name;
-					});
-				}),
-				E("div.knot-content", (contentEl) => {
-					effectNow(knot.content.text, (text) => {
-						contentEl.textContent = text;
-					});
-				}),
-			);
+			effectNow(knot.name, (name) => {
+				bodyEl.textContent = name;
+			});
+			// bodyEl.append(
+			// 	E("span.knot-bar", (barEl) => {
+			// 	}),
+			// );
 		});
 
 		e.addEventListener("dblclick", (ev) => {
