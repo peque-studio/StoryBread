@@ -1,8 +1,15 @@
 import { E, appendHTMLArrayState, appendHTMLState } from "../../../html";
-import { BasicState, IReadonlyState, IState, dependentState } from "statec";
+import {
+	BasicState,
+	IReadonlyState,
+	IState,
+	dependentState,
+	effectNow,
+} from "statec";
 import * as api from "../api";
 import createContentEditor from "./contentEditor";
 import createKnot from "./knot";
+import { createButton, createConfirmIconButton, createIconButton } from "./buttons";
 
 export const KNOT_WIDTH = 100;
 export const KNOT_HEIGHT = 100;
@@ -11,12 +18,14 @@ export const EDITOR_GRID_SIZE = KNOT_WIDTH / 4;
 export const coordToGrid = (v: number) =>
 	Math.round(v / EDITOR_GRID_SIZE) * EDITOR_GRID_SIZE;
 
-class ProjectEditor {
+export default class ProjectEditor {
 	zoom: IState<number>;
 	selectedKnot: IState<api.Knot | null>;
+	editorEl: HTMLElement | undefined;
 
 	constructor(public readonly project: api.Project) {
 		this.zoom = new BasicState(1.0);
+		this.editorEl = undefined;
 		this.selectedKnot = new BasicState<api.Knot | null>(null);
 		this.selectedKnot.effect((knot, oldKnot) => {
 			oldKnot?.selected.update(false);
@@ -24,12 +33,49 @@ class ProjectEditor {
 		});
 	}
 
-	create() {
+	private createMenuBar() {
+		return E("div.menu-bar", (el) => {
+			el.append(
+				createIconButton("arrow-left", "/home"),
+				E("div.menu-bar-separator"),
+				createButton("Test", () => {}, { kind: "important" }),
+				createIconButton("upload", () => {}),
+				E("div.menu-bar-separator"),
+				createIconButton(
+					"plus",
+					() => {
+						const bb = this.editorEl?.getBoundingClientRect();
+						const [x, y] = bb ? [bb.width / 2, bb.height / 2] : [0, 0];
+						this.project.addKnot(x, y);
+					},
+					{ kind: "important" },
+				),
+			);
+			appendHTMLState(
+				el,
+				dependentState(this.selectedKnot, (selectedKnot) =>
+					selectedKnot
+						? createConfirmIconButton(
+								"trash",
+								() => {
+									this.project.deleteKnot(selectedKnot.id.get());
+									this.selectedKnot.update(null);
+								},
+								{ kind: "danger" },
+						  )
+						: null,
+				),
+			);
+		});
+	}
+
+	private createMain() {
 		return E("main", (el) => {
 			el.append(
 				E("div.knot-editor-wrap", (el) => {
 					el.append(
 						E("div.knot-editor", (el) => {
+							this.editorEl = el;
 							el.style.backgroundSize = `${EDITOR_GRID_SIZE}px ${EDITOR_GRID_SIZE}px`;
 							el.style.backgroundPositionX = `${EDITOR_GRID_SIZE / 2}px`;
 							el.style.backgroundPositionY = `${EDITOR_GRID_SIZE / 2}px`;
@@ -39,7 +85,7 @@ class ProjectEditor {
 							appendHTMLArrayState(
 								el,
 								this.project.knots,
-								(a, b) => a.id === b.id,
+								(e) => e.id.get(),
 								(knot) =>
 									createKnot(this.project, el, knot, {
 										onOpen: () => {
@@ -54,11 +100,9 @@ class ProjectEditor {
 			);
 		});
 	}
-}
 
-export default function createProjectEditor(project: IReadonlyState<api.Project>) {
-	return dependentState(project, (project) => {
-		const editor = new ProjectEditor(project);
-		return editor.create();
-	});
+	create() {
+		const main = this.createMain();
+		return [this.createMenuBar(), main];
+	}
 }

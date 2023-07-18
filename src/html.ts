@@ -1,4 +1,4 @@
-import { ArrayState, IReadonlyState, IState, effectNow } from "statec";
+import { ArrayState, BasicState, IReadonlyState, IState, effectNow } from "statec";
 import { arrayDiff } from "./util";
 
 /** Shorthand for {@link document.querySelector} */
@@ -124,7 +124,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 };
 
 export const appendHTMLState = (
-	to: HTMLElement,
+	to: ParentNode,
 	state: IReadonlyState<ChildNode | null>,
 ) => {
 	if (state.get() != null) to.appendChild(state.get()!);
@@ -136,33 +136,30 @@ export const appendHTMLState = (
 };
 
 export const appendHTMLArrayState = <T>(
-	to: HTMLElement,
+	to: ParentNode,
 	state: IReadonlyState<T[]>,
-	eq: (a: T, b: T) => boolean,
-	getElement: (e: T) => HTMLElement,
+	getId: (a: T) => keyof any,
+	getElement: (e: T) => ChildNode,
 ) => {
+	const elementCache: Map<keyof any, ChildNode> = new Map();
 	effectNow(state, (news, olds) => {
-		const { added, removed } = arrayDiff(news, olds ?? [], eq);
-
-		const toBeRemoved = new Set(removed.map((r) => r.index));
-		// const toBeAdded = new Set(added.map(r => r.index));
-
-		for (let i = 0; i < to.children.length; i++) {
-			if (toBeRemoved.has(i)) to.children[i].remove();
+		console.group("news: ", news);
+		console.log("olds: ", olds);
+		for (const item of olds ?? []) {
+			// element still exists:
+			if (news.find((e) => getId(e) === getId(item))) continue;
+			elementCache.get(getId(item))?.remove();
+			elementCache.delete(getId(item));
 		}
-
-		// for (let i = 0, j = 0; i < to.children.length; i++) {
-		// 	if (toBeAdded.has(i)) j++;
-		// 	to.children[i].setAttribute('data-array-idx', `${i + j}`);
-		// }
-
-		for (const { index, item } of added) {
-			if (index === 0) {
-				to.prepend(getElement(item));
-			} else {
-				to.children[index - 1].after(getElement(item));
-			}
+		for (const item of news) {
+			// element existed before:
+			if (olds?.find((e) => getId(e) === getId(item))) continue;
+			console.log("new item:", item);
+			elementCache.set(getId(item), getElement(item));
+			console.log("appending child:", elementCache.get(getId(item)));
+			to.appendChild(elementCache.get(getId(item))!);
 		}
+		console.groupEnd();
 	});
 };
 

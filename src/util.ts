@@ -32,9 +32,11 @@ export type StatelessProps<T> = {
 
 export const arrayDiff = <T>(news: T[], olds: T[], eq: (a: T, b: T) => boolean) => ({
 	added: news
-		.filter((newItem) => !olds.find((oldItem) => eq(newItem, oldItem)))
-		.map((item, index) => ({ index, item })),
+		.map((item, index) => [item, index] as const)
+		.filter(([newItem, _]) => !olds.find((oldItem) => eq(newItem, oldItem)))
+		.map(([item, index]) => ({ index, item })),
 	removed: olds
-		.filter((oldItem) => !news.find((newItem) => eq(newItem, oldItem)))
-		.map((item, index) => ({ index, item })),
+		.map((item, index) => [item, index] as const)
+		.filter(([oldItem, _]) => !news.find((newItem) => eq(newItem, oldItem)))
+		.map(([item, index]) => ({ index, item })),
 });

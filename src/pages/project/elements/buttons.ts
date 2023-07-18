@@ -20,6 +20,14 @@ function bindClickOrLink(
 	}
 }
 
+/**
+ * Create an icon button. (A button without text, just an icon)
+ * @todo Add tooltips and aria stuff.
+ * @param icon The icon to use.
+ * @param callbackOrLink Either `onclick` or an href.
+ * @param options Button options.
+ * @returns A button (or anchor) element.
+ */
 export function createIconButton(
 	icon: keyof typeof feather.icons,
 	callbackOrLink?: string | ClickCallback,
@@ -35,6 +43,14 @@ export function createIconButton(
 	});
 }
 
+/**
+ * Create an icon button with a confirm interface.
+ * @todo Add tooltips and aria stuff.
+ * @param icon The icon to use.
+ * @param callbackOrLink Either `onclick` or an href link.
+ * @param options Button options.
+ * @returns A button (or anchor) element.
+ */
 export function createConfirmIconButton(
 	icon: keyof typeof feather.icons,
 	callbackOrLink?: string | ClickCallback,
@@ -65,6 +81,13 @@ export function createConfirmIconButton(
 	});
 }
 
+/**
+ * Create a simple button.
+ * @param text The button text.
+ * @param callbackOrLink Either `onclick` or an href link.
+ * @param options Button options, including an optional icon.
+ * @returns A button (or anchor) element.
+ */
 export function createButton(
 	text: string,
 	callbackOrLink?: string | ClickCallback,

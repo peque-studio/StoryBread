@@ -1,13 +1,7 @@
 import { Socket, io } from "socket.io-client";
-import {
-	ArrayState,
-	BasicState,
-	IReadonlyState,
-	IState,
-	effectNow,
-	lazyState,
-} from "statec";
+import { BasicState, IReadonlyState, IState, effectNow, lazyState } from "statec";
 import { StateInitialProps, arrayDiff } from "../../../util";
+import ArrayState, { ArrayStateTrans } from "../arrayState";
 
 export type UUID = string;
 
@@ -30,8 +24,8 @@ export interface KnotChoice {
 
 export interface KnotContent {
 	text: IState<string>;
-	dialogue: ArrayState<string>;
-	choices: ArrayState<KnotChoice>;
+	dialogue: ArrayState<string, string>;
+	choices: ArrayState<KnotChoice, string>;
 }
 
 export interface Knot {
@@ -45,10 +39,13 @@ export interface Knot {
 export interface Project {
 	id: IReadonlyState<string>;
 	name: IState<string>;
-	knots: ArrayState<Knot>;
+	knots: ArrayState<Knot, string>;
 	socket: Socket;
 	created: IReadonlyState<Date>;
 	modified: IReadonlyState<Date>;
+
+	deleteKnot(id: string): void;
+	addKnot(x: number, y: number): Promise<Knot>;
 }
 
 export { getProject } from "./impl";

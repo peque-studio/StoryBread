@@ -50,9 +50,13 @@ export default function createKnot(
 			onDragStart() {},
 			onDrag() {
 				el.style.transform = "scale(105%)";
+				el.style.zIndex = "999";
+				el.style.boxShadow = "0 0 15px rgba(0, 0, 0, 0.3)";
 			},
 			onDragEnd() {
 				el.style.transform = "scale(1)";
+				el.style.zIndex = "";
+				el.style.boxShadow = "";
 				knot.ui.pos.update({
 					x: coordToGrid(knot.ui.pos.get().x),
 					y: coordToGrid(knot.ui.pos.get().y),
@@ -73,10 +77,7 @@ export default function createKnot(
 				// HACK: WTF
 				a.filter((con) => con.direction === "backward"),
 			),
-			(a, b) =>
-				a.direction === b.direction &&
-				a.targetId === b.targetId &&
-				a.type === b.type,
+			(c) => `${c.targetId}.${c.direction}.${c.type.get()}`,
 			(con) =>
 				createKnotChoice({
 					type: con.type,
