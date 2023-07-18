@@ -14,13 +14,13 @@ export default function createKnot(
 	knot: api.Knot,
 	cbs: KnotCallbacks = {},
 ) {
-	return E(`div.knot#${knot.id}`, (e) => {
-		e.style.width = `${KNOT_WIDTH}px`;
-		e.style.height = `${KNOT_HEIGHT}px`;
+	return E(`div.knot#${knot.id}`, (el) => {
+		el.style.width = `${KNOT_WIDTH}px`;
+		el.style.height = `${KNOT_HEIGHT}px`;
 
 		effectNow(knot.selected, (selected) => {
-			if (selected) e.classList.add("selected");
-			else e.classList.remove("selected");
+			if (selected) el.classList.add("selected");
+			else el.classList.remove("selected");
 		});
 
 		const knotBody = E("div.knot-body.interact", (bodyEl) => {
@@ -33,26 +33,26 @@ export default function createKnot(
 			// );
 		});
 
-		e.addEventListener("dblclick", (ev) => {
+		el.addEventListener("dblclick", (ev) => {
 			cbs.onOpen?.();
 			ev.stopPropagation();
 		});
 
-		e.addEventListener("click", (ev) => {
+		el.addEventListener("click", (ev) => {
 			// make sure clicking on another knot doesn't
 			// deselect the current one. (event goes to the knotEditor, which deselects.)
 			ev.stopPropagation();
 		});
 
-		makeDraggable(e, {
+		makeDraggable(el, {
 			pos: knot.ui.pos,
 			dragWith: knotBody,
 			onDragStart() {},
 			onDrag() {
-				e.style.transform = "scale(105%)";
+				el.style.transform = "scale(105%)";
 			},
 			onDragEnd() {
-				e.style.transform = "scale(1)";
+				el.style.transform = "scale(1)";
 				knot.ui.pos.update({
 					x: coordToGrid(knot.ui.pos.get().x),
 					y: coordToGrid(knot.ui.pos.get().y),
@@ -60,7 +60,7 @@ export default function createKnot(
 			},
 		});
 
-		e.append(
+		el.append(
 			knotBody,
 			E("div.knot-pin.input", (pinEl) => {}),
 			E("div.knot-pin.output", (pinEl) => {}),

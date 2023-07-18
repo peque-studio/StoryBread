@@ -12,7 +12,7 @@ import { StateInitialProps, arrayDiff } from "../../../util";
 
 type ApiProjectRequest = StateInitialProps<ProjectImpl>;
 
-class ProjectImpl implements ProjectImpl {
+class ProjectImpl implements Project {
 	id: IReadonlyState<string>;
 	name: IState<string, string>;
 	knots: ArrayState<Knot>;

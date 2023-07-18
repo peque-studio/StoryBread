@@ -10,7 +10,5 @@ import "../common.css";
 window.addEventListener("load", async () => {
 	const project = new ConstState(await api.getProject("test"));
 	appendHTMLState(document.body, createMenuBar(project));
-	document.body.append(E("main", (e) => {
-		appendHTMLState(e, createProjectEditor(project));
-	}));
+	appendHTMLState(document.body, createProjectEditor(project));
 });

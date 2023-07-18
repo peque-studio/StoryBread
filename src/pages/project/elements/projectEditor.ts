@@ -1,5 +1,5 @@
 import { E, appendHTMLArrayState, appendHTMLState } from "../../../html";
-import { BasicState, IReadonlyState, dependentState } from "statec";
+import { BasicState, IReadonlyState, IState, dependentState } from "statec";
 import * as api from "../api";
 import createContentEditor from "./contentEditor";
 import createKnot from "./knot";
@@ -11,39 +11,54 @@ export const EDITOR_GRID_SIZE = KNOT_WIDTH / 4;
 export const coordToGrid = (v: number) =>
 	Math.round(v / EDITOR_GRID_SIZE) * EDITOR_GRID_SIZE;
 
-export default function createProjectEditor(
-	project: IReadonlyState<api.Project>,
-) {
-	return dependentState(project, (project) => {
-		const selectedKnot = new BasicState<api.Knot | null>(null);
-		selectedKnot.effect((knot, oldKnot) => {
+class ProjectEditor {
+	zoom: IState<number>;
+	selectedKnot: IState<api.Knot | null>;
+
+	constructor(public readonly project: api.Project) {
+		this.zoom = new BasicState(1.0);
+		this.selectedKnot = new BasicState<api.Knot | null>(null);
+		this.selectedKnot.effect((knot, oldKnot) => {
 			oldKnot?.selected.update(false);
 			knot?.selected.update(true);
 		});
+	}
 
-		return E("div.knot-editor-wrap", (e) => {
-			e.append(
-				E("div.knot-editor", (e) => {
-					e.style.backgroundSize = `${EDITOR_GRID_SIZE}px ${EDITOR_GRID_SIZE}px`;
-					e.style.backgroundPositionX = `${EDITOR_GRID_SIZE / 2}px`;
-					e.style.backgroundPositionY = `${EDITOR_GRID_SIZE / 2}px`;
+	create() {
+		return E("main", (el) => {
+			el.append(
+				E("div.knot-editor-wrap", (el) => {
+					el.append(
+						E("div.knot-editor", (el) => {
+							el.style.backgroundSize = `${EDITOR_GRID_SIZE}px ${EDITOR_GRID_SIZE}px`;
+							el.style.backgroundPositionX = `${EDITOR_GRID_SIZE / 2}px`;
+							el.style.backgroundPositionY = `${EDITOR_GRID_SIZE / 2}px`;
 
-					e.addEventListener("click", () => selectedKnot.update(null));
+							el.addEventListener("click", () => this.selectedKnot.update(null));
 
-					appendHTMLArrayState(
-						e,
-						project.knots,
-						(a, b) => a.id === b.id,
-						(knot) =>
-							createKnot(project, e, knot, {
-								onOpen() {
-									selectedKnot.update(knot);
-								},
-							}),
+							appendHTMLArrayState(
+								el,
+								this.project.knots,
+								(a, b) => a.id === b.id,
+								(knot) =>
+									createKnot(this.project, el, knot, {
+										onOpen: () => {
+											this.selectedKnot.update(knot);
+										},
+									}),
+							);
+						}),
 					);
+					appendHTMLState(el, createContentEditor(this.selectedKnot));
 				}),
 			);
-			appendHTMLState(e, createContentEditor(selectedKnot));
 		});
+	}
+}
+
+export default function createProjectEditor(project: IReadonlyState<api.Project>) {
+	return dependentState(project, (project) => {
+		const editor = new ProjectEditor(project);
+		return editor.create();
 	});
 }

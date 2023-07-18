@@ -2450,10 +2450,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"statec@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "statec@npm:0.1.4"
-  checksum: 98233af9d044fa47314dd3f54359bdf5a47e6ef527aa089ab51eef24784179541c67e8c65f5c07b9555ba47777f72dcdbf54a365a175eb7e6742cf119730faad
+"statec@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "statec@npm:0.1.5"
+  checksum: c8b79860d35ffa81bb60634e5cc462b0ee2e5bf0cdf36b804436dcd3c5e4456dd87e1d93ee4407612708eba5482acad835cae7eb601b538f0486c925fb92ace2
   languageName: node
   linkType: hard
 
@@ -2494,7 +2494,7 @@ __metadata:
     sass: ^1.63.6
     socket.io: ^4.7.1
     socket.io-client: ^4.7.1
-    statec: ^0.1.4
+    statec: ^0.1.5
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft

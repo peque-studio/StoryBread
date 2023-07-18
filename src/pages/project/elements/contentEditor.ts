@@ -1,10 +1,8 @@
-import * as feather from "feather-icons";
 import { E, bindToValue } from "../../../html";
-import createIcon from "../../../icons";
 import { BasicState, IReadonlyState, effectNow } from "statec";
 import * as api from "../api";
 
-import { EditorState, Plugin } from "prosemirror-state";
+import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import "prosemirror-view/style/prosemirror.css";
 import { exampleSetup } from "prosemirror-example-setup";
@@ -14,6 +12,7 @@ import {
 	defaultMarkdownSerializer,
 } from "prosemirror-markdown";
 import "prosemirror-example-setup/style/style.css";
+import { createIconButton } from "./buttons";
 // import "prosemirror-menu/style/menu.css";
 
 function createContentInput(knot: api.Knot) {
@@ -41,15 +40,13 @@ export default function createContentEditor(knot: IReadonlyState<api.Knot | null
 		}
 
 		state.update(
-			E("div.content-editor", (e) => {
-				e.append(
-					E("div.content-editor-header", (e) => {
-						e.append(
-							E("button.icon", (buttonEl) => {
-								buttonEl.append(
-									createIcon(feather.icons.x, { width: 16, height: 16 }),
-								);
-								buttonEl.onclick = () => state.update(null);
+			E("div.content-editor", (el) => {
+				el.append(
+					E("div.content-editor-header", (el) => {
+						el.append(
+							createIconButton("x", () => state.update(null)),
+							createIconButton("image", () => {
+								console.log("set image");
 							}),
 							E("input", (inputEl) => {
 								inputEl.placeholder = "Knot name...";
