@@ -50,7 +50,18 @@ export default function createKnot(
 		});
 
 		createContextMenuFor(el, () => {
-			return [];
+			return [
+				{ name: "Connect", target: () => {}, icon: "link" },
+				{ name: "Transitive", target: () => {}, icon: "link" },
+				{
+					name: "Delete",
+					target: () => {
+						editor.project.deleteKnot(knot.id.get());
+					},
+					icon: "trash-2",
+					kind: "danger",
+				},
+			];
 		});
 
 		makeDraggable(el, {

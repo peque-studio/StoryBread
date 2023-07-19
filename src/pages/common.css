@@ -216,3 +216,33 @@ button.icon.confirm-button-wrap, .btn.icon.confirm-button-wrap {
 	border-left: 1px solid var(--style-menu-border-color);
 	margin: 0 0.25rem;
 }
+
+.context-menu {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background: var(--style-menu-background-color);
+	border: 1px solid var(--style-menu-border-color);
+	border-radius: 10px;
+	margin-left: -5px;
+	margin-top: -5px;
+	z-index: 9999;
+}
+
+.context-menu > .context-menu-item:not(:only-child) > * {
+	width: 100%;
+}
+
+.context-menu > .context-menu-item:not(:first-child):not(:last-child):not(:only-child) > * {
+	border-radius: 0;
+}
+
+.context-menu > .context-menu-item:first-child:not(:only-child) > * {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.context-menu > .context-menu-item:last-child:not(:only-child) > * {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}

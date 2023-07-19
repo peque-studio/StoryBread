@@ -3,13 +3,11 @@ import { E, appendHTMLState } from ".";
 import { BasicState, dependentState } from "statec";
 import createIcon from "../icons";
 
+export type ButtonIcon = keyof typeof feather.icons;
 export type ButtonKind = undefined | "important" | "danger";
 export type ClickCallback = (ev: MouseEvent) => void;
 
-function bindClickOrLink(
-	el: HTMLButtonElement | HTMLAnchorElement,
-	callbackOrLink: string | ClickCallback,
-) {
+function bindClickOrLink(el: HTMLElement, callbackOrLink: string | ClickCallback) {
 	if (typeof callbackOrLink === "string") {
 		(el as HTMLAnchorElement).href = callbackOrLink;
 	} else {
@@ -18,6 +16,21 @@ function bindClickOrLink(
 			callbackOrLink as ClickCallback,
 		);
 	}
+}
+
+export function createButtonLikeElement<K extends keyof HTMLElementTagNameMap>(
+	tag: K,
+	fill: (el: HTMLElementTagNameMap[K]) => void,
+	{ isIcon = false } = {},
+) {
+	return E(
+		tag === "button"
+			? `button${isIcon ? ".icon" : ""}`
+			: `${tag}.btn${isIcon ? ".icon" : ""}`,
+		(el) => {
+			fill(el as HTMLElementTagNameMap[K]);
+		},
+	);
 }
 
 /**
@@ -29,18 +42,22 @@ function bindClickOrLink(
  * @returns A button (or anchor) element.
  */
 export function createIconButton(
-	icon: keyof typeof feather.icons,
+	icon: ButtonIcon,
 	callbackOrLink?: string | ClickCallback,
 	options: Partial<{ kind: ButtonKind }> = {},
 ) {
 	const isLink = typeof callbackOrLink === "string";
-	return E(isLink ? "a.btn.icon" : "button.icon", (el) => {
-		if (options.kind) el.classList.add(options.kind);
-		el.append(createIcon(feather.icons[icon], { width: 16, height: 16 }));
-		if (callbackOrLink) {
-			bindClickOrLink(el, callbackOrLink);
-		}
-	});
+	return createButtonLikeElement(
+		isLink ? "a" : "button",
+		(el) => {
+			if (options.kind) el.classList.add(options.kind);
+			el.append(createIcon(feather.icons[icon], { width: 16, height: 16 }));
+			if (callbackOrLink) {
+				bindClickOrLink(el, callbackOrLink);
+			}
+		},
+		{ isIcon: true },
+	);
 }
 
 /**
@@ -52,33 +69,37 @@ export function createIconButton(
  * @returns A button (or anchor) element.
  */
 export function createConfirmIconButton(
-	icon: keyof typeof feather.icons,
+	icon: ButtonIcon,
 	callbackOrLink?: string | ClickCallback,
 	options: Partial<{ kind: ButtonKind }> = {},
 ) {
 	const isLink = typeof callbackOrLink === "string";
-	return E(isLink ? "a.btn.icon" : "button.icon", (el) => {
-		if (options.kind) el.classList.add(options.kind);
-		const isAskingState = new BasicState(false);
-		el.addEventListener("click", () => isAskingState.update(!isAskingState.get()));
-		appendHTMLState(
-			el,
-			dependentState(isAskingState, (isAsking) => {
-				if (!isAsking) {
-					el.classList.remove("confirm-button-wrap");
-					return createIcon(feather.icons[icon], { width: 16, height: 16 });
-				} else {
-					el.classList.add("confirm-button-wrap");
-					return E("div.button-confirm-box", (boxEl) => {
-						boxEl.append(
-							createIconButton("x"),
-							createIconButton("check", callbackOrLink, { kind: options.kind }),
-						);
-					});
-				}
-			}),
-		);
-	});
+	return createButtonLikeElement(
+		isLink ? "a" : "button",
+		(el) => {
+			if (options.kind) el.classList.add(options.kind);
+			const isAskingState = new BasicState(false);
+			el.addEventListener("click", () => isAskingState.update(!isAskingState.get()));
+			appendHTMLState(
+				el,
+				dependentState(isAskingState, (isAsking) => {
+					if (!isAsking) {
+						el.classList.remove("confirm-button-wrap");
+						return createIcon(feather.icons[icon], { width: 16, height: 16 });
+					} else {
+						el.classList.add("confirm-button-wrap");
+						return E("div.button-confirm-box", (boxEl) => {
+							boxEl.append(
+								createIconButton("x"),
+								createIconButton("check", callbackOrLink, { kind: options.kind }),
+							);
+						});
+					}
+				}),
+			);
+		},
+		{ isIcon: true },
+	);
 }
 
 /**
@@ -93,7 +114,8 @@ export function createButton(
 	callbackOrLink?: string | ClickCallback,
 	options: Partial<{ icon: keyof typeof feather.icons; kind: ButtonKind }> = {},
 ) {
-	return E("button", (el) => {
+	const isLink = typeof callbackOrLink === "string";
+	return createButtonLikeElement(isLink ? "a" : "button", (el) => {
 		if (options.kind) el.classList.add(options.kind);
 		if (options.icon) {
 			el.append(
@@ -106,5 +128,31 @@ export function createButton(
 			el.textContent = text;
 		}
 		if (callbackOrLink) bindClickOrLink(el, callbackOrLink);
+	});
+}
+
+/**
+ * Create a simple button, but a `div`, without callbacks.
+ * @todo unify these functions.
+ * @param text The button text.
+ * @param options Button options, including an optional icon.
+ * @returns A div element styled like a button.
+ */
+export function createButtonLikeDiv(
+	text: string,
+	options: Partial<{ icon: keyof typeof feather.icons; kind: ButtonKind }> = {},
+) {
+	return createButtonLikeElement("div", (el) => {
+		if (options.kind) el.classList.add(options.kind);
+		if (options.icon) {
+			el.append(
+				createIcon(feather.icons[options.icon], { width: 16, height: 16 }),
+				E("span", (el) => {
+					el.textContent = text;
+				}),
+			);
+		} else {
+			el.textContent = text;
+		}
 	});
 }

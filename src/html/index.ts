@@ -87,6 +87,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 	});
 
 	cfg.dragWith.addEventListener("mousedown", (ev) => {
+		if (ev.button !== 0) return;
 		if (cfg.enabled && !cfg.enabled.get()) return;
 
 		const offset = {
@@ -115,6 +116,7 @@ export const makeDraggable = (e: HTMLElement, cfg: DragConfig) => {
 		window.addEventListener(
 			"mouseup",
 			(ev) => {
+				if (ev.button !== 0) return;
 				window.removeEventListener("mousemove", moveListener);
 				if (!cfg.enabled || cfg.enabled.get()) cfg.onDragEnd?.();
 			},

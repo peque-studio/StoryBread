@@ -34,7 +34,7 @@ export default class ArrayState<E, Id> extends State<E[], ArrayStateTrans<E, Id>
 					1,
 				);
 			} else {
-				console.assert("bad ArrayState transaction.");
+				throw "bad ArrayState transaction.";
 			}
 
 			return copy;
