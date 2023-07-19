@@ -1,5 +1,4 @@
-import { ConstState, IReadonlyState, dependentState, effectNow } from "statec";
-import { E, appendHTMLState } from "../../html";
+import { ConstState, effectNow } from "statec";
 import * as api from "./api";
 import ProjectEditor from "./elements/projectEditor";
 

@@ -2,14 +2,19 @@ import { E, appendHTMLArrayState, makeDraggable } from "../../../html";
 import { dependentState, effectNow } from "statec";
 import * as api from "../api";
 import createKnotChoice from "./choice";
-import { KNOT_HEIGHT, KNOT_WIDTH, coordToGrid } from "./projectEditor";
+import ProjectEditor, {
+	KNOT_HEIGHT,
+	KNOT_WIDTH,
+	coordToGrid,
+} from "./projectEditor";
+import createContextMenuFor from "../../../html/contextMenu";
 
 export interface KnotCallbacks {
 	onOpen?: () => void;
 }
 
 export default function createKnot(
-	project: api.Project,
+	editor: ProjectEditor,
 	parent: HTMLElement,
 	knot: api.Knot,
 	cbs: KnotCallbacks = {},
@@ -44,6 +49,10 @@ export default function createKnot(
 			ev.stopPropagation();
 		});
 
+		createContextMenuFor(el, () => {
+			return [];
+		});
+
 		makeDraggable(el, {
 			pos: knot.ui.pos,
 			dragWith: knotBody,
@@ -64,11 +73,7 @@ export default function createKnot(
 			},
 		});
 
-		el.append(
-			knotBody,
-			E("div.knot-pin.input", (pinEl) => {}),
-			E("div.knot-pin.output", (pinEl) => {}),
-		);
+		el.append(knotBody, E("div.knot-pin.input"), E("div.knot-pin.output"));
 
 		appendHTMLArrayState(
 			parent,
@@ -81,7 +86,7 @@ export default function createKnot(
 			(con) =>
 				createKnotChoice({
 					type: con.type,
-					from: project.knots.get().find((n) => n.id.get() === con.targetId)!,
+					from: editor.project.knots.get().find((n) => n.id.get() === con.targetId)!,
 					to: knot,
 				}),
 		);

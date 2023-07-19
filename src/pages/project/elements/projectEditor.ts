@@ -9,7 +9,11 @@ import {
 import * as api from "../api";
 import createContentEditor from "./contentEditor";
 import createKnot from "./knot";
-import { createButton, createConfirmIconButton, createIconButton } from "./buttons";
+import {
+	createButton,
+	createConfirmIconButton,
+	createIconButton,
+} from "../../../html/buttons";
 
 export const KNOT_WIDTH = 100;
 export const KNOT_HEIGHT = 100;
@@ -22,6 +26,10 @@ export default class ProjectEditor {
 	zoom: IState<number>;
 	selectedKnot: IState<api.Knot | null>;
 	editorEl: HTMLElement | undefined;
+	newChoice: IState<null | {
+		pos: IState<{ x: 0; y: 0 }>;
+		from: string;
+	}>;
 
 	constructor(public readonly project: api.Project) {
 		this.zoom = new BasicState(1.0);
@@ -31,6 +39,7 @@ export default class ProjectEditor {
 			oldKnot?.selected.update(false);
 			knot?.selected.update(true);
 		});
+		this.newChoice = new BasicState(null);
 	}
 
 	private createMenuBar() {
@@ -87,7 +96,7 @@ export default class ProjectEditor {
 								this.project.knots,
 								(e) => e.id.get(),
 								(knot) =>
-									createKnot(this.project, el, knot, {
+									createKnot(this, el, knot, {
 										onOpen: () => {
 											this.selectedKnot.update(knot);
 										},

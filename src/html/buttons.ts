@@ -1,10 +1,10 @@
 import * as feather from "feather-icons";
-import { E, appendHTMLState } from "../../../html";
+import { E, appendHTMLState } from ".";
 import { BasicState, dependentState } from "statec";
-import createIcon from "../../../icons";
+import createIcon from "../icons";
 
 export type ButtonKind = undefined | "important" | "danger";
-type ClickCallback = (ev: MouseEvent) => void;
+export type ClickCallback = (ev: MouseEvent) => void;
 
 function bindClickOrLink(
 	el: HTMLButtonElement | HTMLAnchorElement,

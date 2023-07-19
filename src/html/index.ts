@@ -1,5 +1,5 @@
 import { ArrayState, BasicState, IReadonlyState, IState, effectNow } from "statec";
-import { arrayDiff } from "./util";
+import { arrayDiff } from "../util";
 
 /** Shorthand for {@link document.querySelector} */
 export const Q = <T extends HTMLElement>(s: string) => document.querySelector<T>(s);

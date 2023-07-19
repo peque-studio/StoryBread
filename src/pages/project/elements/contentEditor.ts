@@ -12,7 +12,7 @@ import {
 	defaultMarkdownSerializer,
 } from "prosemirror-markdown";
 import "prosemirror-example-setup/style/style.css";
-import { createIconButton } from "./buttons";
+import { createIconButton } from "../../../html/buttons";
 // import "prosemirror-menu/style/menu.css";
 
 function createContentInput(knot: api.Knot) {
