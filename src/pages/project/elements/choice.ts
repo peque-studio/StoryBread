@@ -17,22 +17,20 @@ const smoothLineDef = (x0: number, y0: number, x1: number, y1: number): string =
 		${x1} ${y1}`;
 
 export default function createKnotChoice(con: KnotChoice) {
-	return E(`div.knot-con#${con.from.id}-${con.to.id}`, (e) => {
-		const svg = SVG().addTo(e);
+	return E(`div.knot-con#${con.from.id}-${con.to.id}`, (el) => {
+		const svg = SVG().addTo(el);
 		const path = svg.path();
 
 		path.fill("transparent");
 
-		effectNow(joinedState(
-			con.type,
-			con.from.selected,
-			con.to.selected,
-		), ([type, fromSel, toSel]) =>
-			path.stroke({
-				width: 2,
-				color: (fromSel || toSel) ? "#9c92fd" : "#787787",
-				...(type === "transitive" ? { dasharray: "4 4" } : {}),
-			}),
+		effectNow(
+			joinedState(con.type, con.from.selected, con.to.selected),
+			([type, fromSel, toSel]) =>
+				path.stroke({
+					width: 2,
+					color: fromSel || toSel ? "#9c92fd" : "#787787",
+					...(type === "transitive" ? { dasharray: "4 4" } : {}),
+				}),
 		);
 
 		effectNow(joinedState(con.from.ui.pos, con.to.ui.pos), ([fromPos, toPos]) => {
@@ -49,8 +47,8 @@ export default function createKnotChoice(con: KnotChoice) {
 			const bbox = path.bbox();
 
 			svg.viewbox(bbox.x - pad, bbox.y - pad, bbox.w + pad * 2, bbox.h + pad * 2);
-			e.style.left = `${bbox.x - pad}px`;
-			e.style.top = `${bbox.y - pad}px`;
+			el.style.left = `${bbox.x - pad}px`;
+			el.style.top = `${bbox.y - pad}px`;
 			svg.size(bbox.w + pad * 2, bbox.h + pad * 2);
 		});
 	});

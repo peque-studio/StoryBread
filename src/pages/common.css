@@ -57,6 +57,11 @@
 		--style-important-background-color: #9C92FD;
 		--style-important-hover-background-color: #9C92FD;
 		--style-important-foreground-color: #ffffff;
+		
+		--style-danger-foreground-color: #FD929C;
+		--style-danger-hover-border-color: #FD929C4d;
+		--style-danger-active-border-color: #FD929C;
+		--style-danger-hover-background-color: #fcf0f64d;
 	}
 }
 
@@ -70,6 +75,16 @@ html, body {
 	font-family: system-ui, sans-serif;
 }
 
+button > svg:not(:only-child):first-child {
+	margin-left: -8px;
+	margin-right: 4px;
+}
+
+button > svg:not(:only-child):last-child {
+	margin-right: -8px;
+	margin-left: 4px;
+}
+
 textarea, input, button, .btn, .text-inp, .text-area, .interact {
 	padding: 5px 5px;
 	border-radius: 10px;
@@ -79,6 +94,9 @@ textarea, input, button, .btn, .text-inp, .text-area, .interact {
 	transition-property: color, background-color, box-shadow, border-color;
 	transition-duration: 80ms;
 	transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 textarea {
@@ -87,7 +105,7 @@ textarea {
 }
 
 input, button, .btn, .text-inp, .interact {
-	display: inline-block;
+	display: inline-flex;
 	line-height: 20px;
 	font-size: 14px;
 	vertical-align: middle;
@@ -99,6 +117,16 @@ input:hover, button:hover, .btn:hover {
 	background-color: var(--style-interact-hover-background-color);
 	border: solid 1px var(--style-interact-hover-border-color);
 	transition-duration: .1s;
+}
+
+button.danger:hover, .btn.danger:hover {
+	border: solid 1px var(--style-danger-hover-border-color);
+	color: var(--style-danger-foreground-color);
+}
+
+button.danger:active, .btn.danger:active {
+	border: solid 1px var(--style-danger-active-border-color);
+	color: var(--style-danger-foreground-color);
 }
 
 textarea, input, .text-inp, .text-area {
@@ -145,4 +173,76 @@ button.important:active, .btn.important:active {
 			#f0f6fc1a
 		),
 		var(--style-important-background-color);
+}
+
+button.icon.confirm-button-wrap, .btn.icon.confirm-button-wrap {
+	padding: 0;
+	display: inline-block;
+	gap: 5px;
+	width: min-content;
+	height: calc(7px + 16px + 7px);
+	position: relative;
+	background: none;
+	border: none;
+	cursor: default;
+}
+
+.button-confirm-box {
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	position: relative;
+	background: var(--style-interact-background-color);
+	border: 1px solid var(--style-interact-border-color);
+	border-radius: 10px;
+	padding: 2px;
+	left: -2px; /* compensate for padding */
+	top: -2px; /* compensate for padding */
+}
+
+.menu-bar {
+	padding: 0.5rem;
+	background-color: var(--style-menu-background-color);
+	border-bottom: 1px solid var(--style-menu-border-color);
+	display: flex;
+	gap: 0.5rem;
+	overflow-y: visible;
+	z-index: 2;
+}
+
+.menu-bar-separator {
+	width: 1px;
+	border-left: 1px solid var(--style-menu-border-color);
+	margin: 0 0.25rem;
+}
+
+.context-menu {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background: var(--style-menu-background-color);
+	border: 1px solid var(--style-menu-border-color);
+	border-radius: 10px;
+	margin-left: -5px;
+	margin-top: -5px;
+	z-index: 9999;
+}
+
+.context-menu > .context-menu-item:not(:only-child) > * {
+	width: 100%;
+}
+
+.context-menu > .context-menu-item:not(:first-child):not(:last-child):not(:only-child) > * {
+	border-radius: 0;
+}
+
+.context-menu > .context-menu-item:first-child:not(:only-child) > * {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.context-menu > .context-menu-item:last-child:not(:only-child) > * {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }

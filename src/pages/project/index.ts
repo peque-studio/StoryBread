@@ -1,16 +1,14 @@
-import { ConstState } from "statec";
-import { E, appendHTMLState } from "../../html";
+import { ConstState, effectNow } from "statec";
 import * as api from "./api";
-import createMenuBar from "./elements/menuBar";
-import createProjectEditor from "./elements/projectEditor";
+import ProjectEditor from "./elements/projectEditor";
 
 import "./assets/styles.css";
 import "../common.css";
 
 window.addEventListener("load", async () => {
 	const project = new ConstState(await api.getProject("test"));
-	appendHTMLState(document.body, createMenuBar(project));
-	document.body.append(E("main", (e) => {
-		appendHTMLState(e, createProjectEditor(project));
-	}));
+	effectNow(project, (project) => {
+		const editor = new ProjectEditor(project);
+		document.body.replaceChildren(...editor.create());
+	});
 });
