@@ -69,14 +69,10 @@ export default function createKnot(
 			dragWith: knotBody,
 			onDragStart() {},
 			onDrag() {
-				el.style.transform = "scale(105%)";
-				el.style.zIndex = "999";
-				el.style.boxShadow = "0 0 15px rgba(0, 0, 0, 0.3)";
+				el.classList.add("drag");
 			},
 			onDragEnd() {
-				el.style.transform = "scale(1)";
-				el.style.zIndex = "";
-				el.style.boxShadow = "";
+				el.classList.remove("drag");
 				knot.ui.pos.update({
 					x: coordToGrid(knot.ui.pos.get().x),
 					y: coordToGrid(knot.ui.pos.get().y),

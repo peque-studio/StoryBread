@@ -4,7 +4,7 @@ import { BasicState, IReadonlyState, IState, effectNow, lazyState } from "statec
 import { StateInitialProps, StatelessProps, arrayDiff } from "../../../util";
 import ArrayState from "../arrayState";
 
-type ApiProjectRequest = StateInitialProps<ProjectImpl>;
+type ApiProjectRequest = StateInitialProps<Project>;
 
 class ProjectImpl implements Project {
 	id: IReadonlyState<string>;

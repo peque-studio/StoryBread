@@ -1,7 +1,6 @@
-import { Socket, io } from "socket.io-client";
-import { BasicState, IReadonlyState, IState, effectNow, lazyState } from "statec";
-import { StateInitialProps, arrayDiff } from "../../../util";
-import ArrayState, { ArrayStateTrans } from "../arrayState";
+import { Socket } from "socket.io-client";
+import { IReadonlyState, IState } from "statec";
+import ArrayState from "../arrayState";
 
 export type UUID = string;
 

@@ -82,6 +82,13 @@ main {
 	display: flex;
 	/* width: 100px; -- in JS */
 	/* height: 100px; -- in JS */
+	border-radius: 10px;
+}
+
+.knot.drag {
+	transform: scale(105%);
+	z-index: 999;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .knot.selected > .knot-body {
