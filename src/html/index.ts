@@ -27,8 +27,12 @@ const _extractSelector = (s: string) => {
 	return sel;
 };
 
+export type Configurable<T extends HTMLElement> = T & {
+	c: (f: (el: Configurable<T>) => void) => Configurable<T>
+};
+
 /** Same as {@link E}('div', handler) */
-export function E(handler: (e: HTMLDivElement) => void): HTMLDivElement;
+export function E(handler: (e: HTMLDivElement) => void): Configurable<HTMLDivElement>;
 
 /**
  * Create an element with the specified selector (currently supports classes and ids)
@@ -39,12 +43,12 @@ export function E(handler: (e: HTMLDivElement) => void): HTMLDivElement;
 export function E<U extends string>(
 	elem: U,
 	handler?: (e: HTMLElementTagNameMap[_MatchSelector<U>]) => void,
-): HTMLElementTagNameMap[_MatchSelector<U>];
+): Configurable<HTMLElementTagNameMap[_MatchSelector<U>]>;
 
 export function E(
 	elemOrHandler: string | ((e: HTMLDivElement) => void) | ((e: HTMLElement) => void),
 	handler?: (e: HTMLElement) => void,
-): HTMLElement {
+) {
 	if (typeof elemOrHandler !== "string") {
 		return E("div" as const, elemOrHandler as (e: HTMLElement) => void);
 	}
@@ -55,7 +59,16 @@ export function E(
 	sel.classes.forEach((c) => e.classList.add(c));
 
 	if (handler) handler(e);
-	return e;
+	return makeConfigurable(e);
+}
+
+function makeConfigurable<T extends HTMLElement>(el: T) {
+	const cel = el as Configurable<T>;
+	cel.c = (f) => {
+		f(cel);
+		return cel;
+	}
+	return cel;
 }
 
 // TODO: Make this Pos thing unified somewhere.
