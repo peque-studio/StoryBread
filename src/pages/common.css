@@ -36,7 +36,8 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--style-background-color: #0d1117;
+		/* --style-background-color: #0d1117; */
+		--style-background-color: #201e22;
 		--style-foreground-color: #eeeeee;
 	
 		--style-grid-color: #f0f6fc10;
@@ -46,14 +47,20 @@
 	
 		--style-interact-bar-background-color: #1a1e22;
 		--style-interact-foreground-color: #c9d1d9;
+
+		--style-error-background-color: #592d38;
+		--style-error-text-color: #fd929c;
 		
-		--style-input-background-color: #0d1117;
+		/* --style-input-background-color: #0d1117; */
+		--style-input-background-color: #08060A;
 		--style-interact-background-color: #21262d;
 		--style-interact-hover-background-color: #30363d;
 		--style-interact-active-background-color: #282e33;
 		
-		--style-interact-border-color: #f0f6fc1a;
-		--style-interact-hover-border-color: #f0f6fc4d;
+		/* --style-interact-border-color: #f0f6fc1a;
+		--style-interact-hover-border-color: #f0f6fc4d; */
+		--style-interact-border-color: #7d7587;
+		--style-interact-hover-border-color: #9c92fd;
 		--style-interact-active-border-color: #f0f6fc4d;
 		
 		--style-important-background-color: #9C92FD;
