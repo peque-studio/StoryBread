@@ -49,7 +49,7 @@ const ctx = await esbuild.context({
   outdir: 'dist',
   sourcemap: true,
   metafile: true,
-  loader: {'.svg': 'file'},
+  loader: {'.svg': 'file', '.png': 'file'},
   plugins: [
     sassPlugin({
       cssImports: true
