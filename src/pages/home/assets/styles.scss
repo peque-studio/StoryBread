@@ -9,9 +9,10 @@ main {
 	justify-content: center;
 	height: 100vh;
 
-	background-image: url("./bg_3.svg");
-	background-size: 125px;
+	background-image: url("./bg.svg");
+	background-size: 100vw;
 	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .main-wrapper {
@@ -114,7 +115,15 @@ main {
 }
 
 .footer {
+	display: flex;
+	align-items: center;
 	position: absolute;
 	bottom: 20px;
 	text-align: center;
+	opacity: .5;
+	font-weight: light;
+
+	&__img {
+		margin: 0 3px;
+	}
 }
