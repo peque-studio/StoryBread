@@ -1,10 +1,17 @@
-import { dependentState } from "statec";
-import { appendHTMLState } from "../../../html";
-import * as api from 'api'
+import { E } from "../../../html";
+import * as api from "../api";
+import { createAuthForm } from "./authForm";
 
-export default function createPage(
-    parent: HTMLElement
-) {
-    const user
-    appendHTMLState(parent, dependentState(user: api))
+export default function createPage(user: api.User | null) {
+	if (!user) {
+		return createAuthForm();
+	} else {
+		return E("div.main-wrapper", (el) => {
+			el.append(
+				E("header", (el) => {
+					el.append();
+				}),
+			);
+		});
+	}
 }

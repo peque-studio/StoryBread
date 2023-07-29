@@ -2,7 +2,11 @@ import "./assets/styles.scss";
 import "../common.css";
 import createPage from "./components/page";
 import { E } from "../../html";
+import { getUser } from "./api";
 
-window.document.addEventListener("load", () => {
-    document.body.append(E("main", (e) => createPage(e)))
-})
+window.addEventListener("load", async () => {
+	// const user = await getUser()
+	const user = null;
+
+	document.body.append(E("main", (e) => e.append(createPage(user))));
+});
