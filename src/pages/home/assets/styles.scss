@@ -10,7 +10,7 @@ main {
 	height: 100vh;
 
 	background-image: url("./bg.svg");
-	background-size: 100vw;
+	background-size: 100vh;
 	background-position: center;
 	background-repeat: no-repeat;
 }
@@ -35,7 +35,7 @@ main {
 	justify-content: center;
 
 	&__input {
-		margin-bottom: 20px;
+		margin-bottom: 1rem;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -116,14 +116,32 @@ main {
 
 .footer {
 	display: flex;
-	align-items: center;
 	position: absolute;
 	bottom: 20px;
+	right: 20px;
 	text-align: center;
 	opacity: .5;
-	font-weight: light;
+	font-weight: lighter;
+	overflow: hidden;
+	user-select: none;
 
 	&__img {
 		margin: 0 3px;
+		z-index: 2;
+		background-color: var(--style-background-color);
+	}
+
+	&__right-wrapper {
+		align-items: center;
+		opacity: 0;
+
+		display: flex;
+		transition: transform .5s, opacity .5s;
+		transform: translateX(100%);
+	}
+
+	&:hover &__right-wrapper {
+		transform: translateX(0);
+		opacity: 1;
 	}
 }

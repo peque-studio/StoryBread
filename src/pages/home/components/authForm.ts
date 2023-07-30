@@ -21,8 +21,8 @@ const Errors = {
 	password: ["Please make your password stronger"],
 	email: ["Your email address is incorrect"],
 };
-import Logo from '../assets/logo.svg'
-import HeartEmoji from '../assets/heart.png'
+import Logo from "../assets/logo.svg";
+import HeartEmoji from "../assets/heart.png";
 
 interface FormField {
 	label?: string;
@@ -158,11 +158,13 @@ export function createAuthForm() {
 						);
 					}),
 					E("div.auth-form__link", (el) => {
-						el.append(E("a", el => {
-							el.href = "/register"
-							el.textContent = "i don't have account"
-						}))
-					})
+						el.append(
+							E("a", (el) => {
+								el.href = "/register";
+								el.textContent = "i don't have account";
+							}),
+						);
+					}),
 				);
 			}),
 			E("div.status__wrapper", (el) => {
@@ -191,22 +193,26 @@ export function createAuthForm() {
 			}),
 			E("div.footer", (el) => {
 				el.append(
-					E("span.footer__text", el => {
-						el.textContent = "made with"
+					E("div.footer__right-wrapper", (el) => {
+						el.append(
+							E("span.footer__text", (el) => {
+								el.textContent = "made with";
+							}),
+							E("img.footer__img", (el) => {
+								el.src = HeartEmoji;
+								el.style.height = "20px";
+							}),
+							E("span.footer__text", (el) => {
+								el.textContent = "by";
+							}),
+						);
 					}),
-					E("img.footer__img", el => {
-						el.src = HeartEmoji
-						el.style.height = "20px"
+					E("img.footer__img", (el) => {
+						el.src = Logo;
+						el.style.height = "20px";
 					}),
-					E("span.footer__text", el => {
-						el.textContent = "by"
-					}),
-					E("img.footer__img", el => {
-						el.src = Logo
-						el.style.height = "20px"
-					})
-				)
-			})
+				);
+			}),
 		);
 	});
 }
