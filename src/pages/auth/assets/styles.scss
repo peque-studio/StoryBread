@@ -1,6 +1,7 @@
 html, body {
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 }
 
 main {
@@ -9,10 +10,33 @@ main {
 	justify-content: center;
 	height: 100vh;
 
-	background-image: url("./bg.svg");
-	background-size: 100vh;
-	background-position: center;
-	background-repeat: no-repeat;
+	// background-image: url("./bg.svg");
+	// background-size: 100vh;
+	// background-position: center;
+	// background-repeat: no-repeat;
+
+	&::before{
+		content: "";
+		position: absolute;
+		width: 200%;
+		height: 200%;
+		top: -50%;
+		left: -50%;
+		z-index: 0;
+		background-image: url("./bg.svg");
+		background-size: 50vh;
+		background-position: center;
+		animation: 720s anim linear infinite;
+
+		@keyframes anim {
+			from {
+				transform: rotate(0);
+			}
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	}
 }
 
 .main-wrapper {
@@ -33,6 +57,15 @@ main {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	z-index: 1;
+
+	&__bg {
+		position: absolute;
+		height: 72vh;
+		background-image: url('./brad.svg');
+		background-size: 100%;
+		background-repeat: no-repeat;
+	}
 
 	&__input {
 		margin-bottom: 1rem;
@@ -47,6 +80,7 @@ main {
 		text-align: center;
 		animation: rainbow-text-anim 15s linear infinite;
 		background-size: 200%;
+		z-index: 2;
 
 		@keyframes rainbow-text-anim {
 			from {
@@ -75,6 +109,10 @@ main {
   		-webkit-text-fill-color: transparent; 
 	}
 
+	&__wrapper {
+		z-index: 2;
+	}
+
 	&__link {
 		text-align: center;
 		margin-top: 10px;
@@ -82,7 +120,7 @@ main {
 		a {
 			text-decoration: none;
 			color: inherit;
-			opacity: .2;
+			opacity: .4;
 			transition: .25s;
 
 			&:hover {
@@ -116,8 +154,9 @@ main {
 
 .footer {
 	display: flex;
+	align-items: flex-start;
 	position: absolute;
-	bottom: 20px;
+	bottom: 0;
 	right: 20px;
 	text-align: center;
 	opacity: .5;
@@ -136,12 +175,48 @@ main {
 		opacity: 0;
 
 		display: flex;
-		transition: transform .5s, opacity .5s;
+		// transition: transform .5s, opacity .2s;
 		transform: translateX(100%);
+		animation: .5s text-anim-rev;
 	}
-
+	
 	&:hover &__right-wrapper {
+		animation: .5s text-anim;
 		transform: translateX(0);
 		opacity: 1;
+	}
+
+	@keyframes text-anim {
+		0% {
+			opacity: 0;
+			transform: translateX(100%);
+		}
+
+		50% {
+			opacity: 0;
+			transform: translateX(50%)
+		}
+
+		100% {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes text-anim-rev {
+		0% {
+			transform: translateX(0);
+			opacity: 1;
+		}
+		
+		50% {
+			opacity: 0;
+			transform: translateX(50%)
+		}
+		
+		100% {
+			opacity: 0;
+			transform: translateX(100%);
+		}
 	}
 }

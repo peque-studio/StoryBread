@@ -21,8 +21,9 @@ const Errors = {
 	password: ["Please make your password stronger"],
 	email: ["Your email address is incorrect"],
 };
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/peque.svg";
 import HeartEmoji from "../assets/heart.png";
+import Bread from '../assets/bg.svg'
 
 interface FormField {
 	label?: string;
@@ -51,21 +52,21 @@ export function createStatefulFormField(
 const createPasswordField = (initialValue: string): StatefulFormField =>
 	createStatefulFormField(initialValue, {
 		validator: (password) => password.length >= 8,
-		label: "Password",
+		label: "password",
 		placeholder: "P@s$w0rD",
 	});
 
 const createUsernameField = (initialValue: string): StatefulFormField =>
 	createStatefulFormField(initialValue, {
 		validator: (username) => username.length >= 3,
-		label: "Username",
+		label: "username",
 		placeholder: "letters_n_nums",
 	});
 
 const createEmailField = (initialValue: string): StatefulFormField =>
 	createStatefulFormField(initialValue, {
 		validator: (email) => email.includes("@"),
-		label: "Email",
+		label: "email",
 		placeholder: "example@email.com",
 	});
 
@@ -122,8 +123,11 @@ export function createAuthForm() {
 
 	return E("div.auth-form", (el) => {
 		el.append(
+			E("img.auth-form__bg", el => {
+				el.src = Bread
+			}),
 			E("h1.auth-form__title", (el) => {
-				el.textContent = "welcome to StoryBread";
+				el.textContent = "Welcome to StoryBread";
 			}),
 			E("div.auth-form__wrapper", (el) => {
 				el.append(
@@ -149,7 +153,7 @@ export function createAuthForm() {
 					}),
 					E("div.auth-form__submit", (el) => {
 						el.append(
-							createButton("Submit", () => {
+							createButton("submit", () => {
 								tryAuthUser();
 							}).c((el) => {
 								el.style.width = "100%";
@@ -209,7 +213,7 @@ export function createAuthForm() {
 					}),
 					E("img.footer__img", (el) => {
 						el.src = Logo;
-						el.style.height = "20px";
+						el.style.width = "25px";
 					}),
 				);
 			}),
