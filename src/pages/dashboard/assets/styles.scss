@@ -1,3 +1,8 @@
+:root {
+    --style-primary-color: #9C49F3;
+}
+
+
 .wrapper {
     width: 100vw;
 
@@ -32,6 +37,7 @@
 }
 
 .header {
+    top: 0;
     position: sticky;
 
     background-color: var(--style-menu-background-color);
@@ -47,7 +53,12 @@
 
     &__title {
         overflow: hidden;
-        word-break: keep-all;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__logo {
+        height: 45px;
     }
 
     &__username {
@@ -84,23 +95,71 @@
 .section {
     margin-top: 3rem;
 
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        margin-bottom: 1rem;
+    }
+
     &__name {
         font-size: 3em;
-        margin-bottom: 1rem;
+        line-height: 1em;
+
+        box-shadow: inset 0 -0.3em 0 0 magenta;
+        
+        // alternative design
+        /* &:after {
+            content: "";
+            display: block;
+            width: 90px;
+            height: 3px;
+            background-color: var(--style-primary-color);
+            transform: translateY(-0.35em);
+        } */
+    }
+
+    &__btn {
+        text-decoration: none;
+        font-size: 1.3em !important;
+        padding: 10px 20px !important;
+        border-radius: 16px !important;
+
+        span {
+            margin-left: 5px;
+        }
+
+        @media (max-width: 575px) {
+            padding: 15px !important;
+            
+            span {
+                display: none;
+            }
+        }
     }
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
         column-gap: 2rem;
         row-gap: 1rem;
 
-        // todo: add media queries for small devices
+        // for small devices
+        grid-template-columns: 1fr;
+        
+        // for bigger devices
+        @media (min-width: 576px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 }
 
 .card {
-    height: 10rem;
+    height: 200px;
     display: grid;
     place-items: center;
     border-radius: 16px;
