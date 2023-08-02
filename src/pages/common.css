@@ -81,7 +81,19 @@ html, body {
 	padding: 0;
 	background-color: var(--style-background-color);
 	color: var(--style-foreground-color);
-	font-family: system-ui, sans-serif;
+	font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+@font-face {
+	font-family: "Source Sans 3";
+	src: url("../public/SourceSans3.ttf") format("truetype-variations");
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Source Sans 3";
+	src: url("../public/SourceSans3-Italic.ttf") format("truetype-variations");
+	font-style: italic;
 }
 
 button > svg:not(:only-child):first-child {
