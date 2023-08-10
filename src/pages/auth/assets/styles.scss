@@ -129,6 +129,18 @@ main {
 		}
 	}
 
+	&__tos {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+		margin-left: 6px;
+		transition: .5s;
+		
+		span {
+			margin-left: .5rem;
+		}
+	}
+
 	.disabled {
 		position: absolute;
 		opacity: 0;

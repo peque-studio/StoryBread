@@ -190,6 +190,21 @@ export function createAuthForm() {
 							),
 						);
 					}),
+					E("div.auth-form__tos", (el) => {
+						el.append(
+							E("input", (el) => {
+								el.type = "checkbox";
+							}),
+							E("span", (el) => {
+								el.textContent = "i agree with ToS";
+							}),
+						);
+					}).c((el) => {
+						effectNow(isNewAccount, (val) => {
+							if (val) el.classList.remove("disabled");
+							else el.classList.add("disabled");
+						});
+					}),
 					E("div.auth-form__submit", (el) => {
 						el.append(
 							createButton("submit", () => {
