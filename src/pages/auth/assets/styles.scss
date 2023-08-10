@@ -1,42 +1,39 @@
-html, body {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+body::before {
+	content: "";
+	position: fixed;
+	width: 200%;
+	height: 200%;
+	top: -50%;
+	left: -50%;
+	z-index: 0;
+	background-image: url("./bg.svg");
+	background-size: 50vh;
+	background-position: center;
+	animation: 720s anim linear infinite;
+
+	@keyframes anim {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
 }
 
 main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100vh;
+	height: 100%;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
 
 	// background-image: url("./bg.svg");
 	// background-size: 100vh;
 	// background-position: center;
 	// background-repeat: no-repeat;
-
-	&::before{
-		content: "";
-		position: absolute;
-		width: 200%;
-		height: 200%;
-		top: -50%;
-		left: -50%;
-		z-index: 0;
-		background-image: url("./bg.svg");
-		background-size: 50vh;
-		background-position: center;
-		animation: 720s anim linear infinite;
-
-		@keyframes anim {
-			from {
-				transform: rotate(0);
-			}
-			to {
-				transform: rotate(360deg);
-			}
-		}
-	}
 }
 
 .main-wrapper {
@@ -65,10 +62,12 @@ main {
 		background-image: url('./brad.svg');
 		background-size: 100%;
 		background-repeat: no-repeat;
+		user-select: none;
 	}
 
 	&__input {
 		margin-bottom: 1rem;
+		transition: .5s;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -128,7 +127,12 @@ main {
 				color: var(--style-interact-hover-border-color);
 			}
 		}
+	}
 
+	.disabled {
+		position: absolute;
+		opacity: 0;
+		z-index: -1;
 	}
 }
 

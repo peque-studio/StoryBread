@@ -5,7 +5,7 @@ import {
 	BasicState,
 	effectNow,
 } from "statec";
-import { E } from "../../../html";
+import { Configurable, E } from "../../../html";
 import { InputType, createInput } from "../../../html/input";
 import { getRandomElement } from "../../../util";
 import { createButton } from "../../../html/buttons";
@@ -23,7 +23,7 @@ const Errors = {
 };
 import Logo from "../assets/peque.svg";
 import HeartEmoji from "../assets/heart.png";
-import Bread from '../assets/bg.svg'
+import Bread from "../assets/bg.svg";
 
 interface FormField {
 	label?: string;
@@ -65,7 +65,7 @@ const createUsernameField = (initialValue: string): StatefulFormField =>
 
 const createEmailField = (initialValue: string): StatefulFormField =>
 	createStatefulFormField(initialValue, {
-		validator: (email) => email.includes("@"),
+		validator: (email) => /.+@.+\..+/.test(email),
 		label: "email",
 		placeholder: "example@email.com",
 	});
@@ -102,12 +102,14 @@ export function createForm(form: IForm) {
 interface AuthForm extends IForm {
 	username: StatefulFormField;
 	password: StatefulFormField;
+	email: StatefulFormField;
 }
 
 function getStatefulAuthForm(): AuthForm {
 	return {
 		username: createUsernameField(""),
 		password: createPasswordField(""),
+		email: createEmailField(""),
 	};
 }
 
@@ -115,22 +117,59 @@ export function createAuthForm() {
 	const formData = getStatefulAuthForm();
 	const username = formData.username.value;
 	const password = formData.password.value;
+	const email = formData.email.value;
+	const isNewAccount = new BasicState(false);
 
 	function tryAuthUser(): void {
 		if (formData.username.valid.get() && formData.password.valid.get())
 			api.authUser(username.get(), password.get());
 	}
 
+	function getEmailIfNecessary(): any[] {
+		const elementsArray: HTMLElement[] = [];
+		effectNow(isNewAccount, (currentValue) => {
+			if (currentValue)
+				elementsArray.push(
+					E("div.auth-form__input", (el) => {
+						el.append(
+							createInput(
+								email,
+								"text",
+								formData.email.placeholder,
+								formData.email.label,
+							),
+						);
+					}),
+				);
+		});
+		return elementsArray;
+	}
+
 	return E("div.auth-form", (el) => {
 		el.append(
-			E("img.auth-form__bg", el => {
-				el.src = Bread
+			E("img.auth-form__bg", (el) => {
+				el.src = Bread;
 			}),
 			E("h1.auth-form__title", (el) => {
 				el.textContent = "Welcome to StoryBread";
 			}),
 			E("div.auth-form__wrapper", (el) => {
 				el.append(
+					E("div.auth-form__input", (el) => {
+						el.append(
+							createInput(
+								email,
+								"text",
+								formData.email.placeholder,
+								formData.email.label,
+							),
+						);
+					}).c((el) => {
+						effectNow(isNewAccount, (val) => {
+							if (val) el.classList.remove("disabled");
+							else el.classList.add("disabled");
+						});
+					}),
 					E("div.auth-form__input", (el) => {
 						el.append(
 							createInput(
@@ -164,36 +203,46 @@ export function createAuthForm() {
 					E("div.auth-form__link", (el) => {
 						el.append(
 							E("a", (el) => {
-								el.href = "/register";
-								el.textContent = "i don't have account";
+								el.href = "#";
+
+								effectNow(isNewAccount, (val) => {
+									el.textContent = val
+										? "already have account"
+										: "i don't have account";
+								});
+
+								el.addEventListener("click", (e) => {
+									isNewAccount.update(!isNewAccount.get());
+								});
 							}),
 						);
 					}),
 				);
 			}),
 			E("div.status__wrapper", (el) => {
-				el.append(
-					E("h5.status__box", (el) => {
-						effectNow(formData.username.valid, () => {
-							if (!formData.username.valid.get() && username.get()) {
-								el.style.display = "block";
-								el.textContent = getRandomElement(Errors.username);
-							} else {
-								el.style.display = "none";
-							}
-						});
-					}),
-					E("h5.status__box", (el) => {
-						effectNow(formData.password.valid, () => {
-							if (!formData.password.valid.get() && password.get()) {
-								el.style.display = "block";
-								el.textContent = getRandomElement(Errors.password);
-							} else {
-								el.style.display = "none";
-							}
-						});
-					}),
-				);
+				const fieldsConfig: {
+					state: StatefulFormField;
+					value: IState<string, string>;
+					errorsList: string[];
+				}[] = [
+					{ state: formData.email, value: email, errorsList: Errors.email },
+					{ state: formData.username, value: username, errorsList: Errors.username },
+					{ state: formData.password, value: password, errorsList: Errors.password },
+				];
+				for (const field of fieldsConfig) {
+					el.append(
+						E("h5.status__box", (el) => {
+							effectNow(field.state.valid, (value) => {
+								if (!value && field.value.get()) {
+									el.style.display = "block";
+									el.textContent = getRandomElement(field.errorsList);
+								} else {
+									el.style.display = "none";
+								}
+							});
+						}),
+					);
+				}
 			}),
 			E("div.footer", (el) => {
 				el.append(
