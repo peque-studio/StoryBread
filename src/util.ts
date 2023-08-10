@@ -40,3 +40,7 @@ export const arrayDiff = <T>(news: T[], olds: T[], eq: (a: T, b: T) => boolean) 
 		.filter(([oldItem, _]) => !news.find((newItem) => eq(newItem, oldItem)))
 		.map(([item, index]) => ({ index, item })),
 });
+
+export const getRandomElement = (arr: Array<any>) => {
+	return arr[Math.floor(Math.random() * arr.length)];
+};

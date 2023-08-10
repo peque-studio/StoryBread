@@ -40,7 +40,7 @@ const progressPlugin = ({ message = 'Building' } = {}) => {
 const ctx = await esbuild.context({
   entryPoints: [
     'src/pages/project/index.html',
-    'src/pages/home/index.html'
+    'src/pages/auth/index.html'
   ],
   assetNames: 'assets/[name]-[hash]',
   chunkNames: '[ext]/[name]-[hash]',
@@ -49,6 +49,7 @@ const ctx = await esbuild.context({
   outdir: 'dist',
   sourcemap: true,
   metafile: true,
+  loader: {'.svg': 'file', '.png': 'file'},
   plugins: [
     sassPlugin({
       cssImports: true
