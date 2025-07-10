@@ -45,6 +45,7 @@ export function Editor() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         fitView
+        colorMode="dark"
       >
         <Controls />
         <MiniMap />
