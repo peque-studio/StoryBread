@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Editor } from "./-components/editor";
 import { Inspector } from "./-components/inspector";
-import { useState } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { NodeActions } from "./-components/node-actions";
@@ -12,16 +11,14 @@ export const Route = createFileRoute("/editor")({
 });
 
 function EditorRoute() {
-  const [isInspectorOpen, setInspector] = useState(false);
-
   return (
     <main className="w-screen h-screen flex overflow-hidden">
       <Library />
       <ReactFlowProvider>
         <ContextMenu>
-          <Inspector open={isInspectorOpen} />
+          <Inspector />
           <ContextMenuTrigger>
-            <Editor setInspector={setInspector} />
+            <Editor />
           </ContextMenuTrigger>
           <NodeActions />
         </ContextMenu>

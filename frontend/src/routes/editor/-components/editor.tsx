@@ -25,13 +25,9 @@ const initialNodes = [
 ];
 const initialEdges = [{ id: "n1-n2", source: "n1", target: "n2" }];
 
-interface EditorProps {
-  setInspector: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 let nodeId = 0;
 
-export function Editor({ setInspector }: EditorProps) {
+export function Editor() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const setActiveNodes = useEditorStore((state) => state.setActiveNodes);
@@ -76,7 +72,6 @@ export function Editor({ setInspector }: EditorProps) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onPaneClick={() => setInspector(false)}
         fitView
         colorMode="dark"
         onSelectionChange={(params) => setActiveNodes(params.nodes)}
