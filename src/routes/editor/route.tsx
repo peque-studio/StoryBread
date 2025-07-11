@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { NodeActions } from "./-components/node-actions";
+import { Library } from "./-components/library";
 
 export const Route = createFileRoute("/editor")({
   component: EditorRoute,
@@ -14,7 +15,8 @@ function EditorRoute() {
   const [isInspectorOpen, setInspector] = useState(false);
 
   return (
-    <main>
+    <main className="w-screen h-screen flex overflow-hidden">
+      <Library />
       <ContextMenu>
         <Inspector open={isInspectorOpen} />
         <ContextMenuTrigger>

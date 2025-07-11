@@ -62,7 +62,7 @@ export function Editor({ setInspector }: EditorProps) {
   }, []);
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div className="h-screen w-[calc(100vw*0.75)]">
       <ReactFlow
         nodes={nodes}
         edges={edges}
