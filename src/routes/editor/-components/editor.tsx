@@ -8,8 +8,11 @@ import {
   Background,
   Controls,
   MiniMap,
+  Panel,
   ReactFlow,
+  useReactFlow,
 } from "@xyflow/react";
+import { Toolbar } from "./toolbar";
 
 const initialNodes = [
   { id: "n1", position: { x: 0, y: 0 }, data: { label: "Node 1" } },
@@ -20,6 +23,8 @@ const initialEdges = [{ id: "n1-n2", source: "n1", target: "n2" }];
 interface EditorProps {
   setInspector: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+let nodeId = 0;
 
 export function Editor({ setInspector }: EditorProps) {
   const [nodes, setNodes] = useState(initialNodes);
@@ -40,6 +45,22 @@ export function Editor({ setInspector }: EditorProps) {
     []
   );
 
+  const reactFlowInstance = useReactFlow();
+  const createNode = useCallback(() => {
+    const id = `${++nodeId}`;
+    const newNode = {
+      id,
+      position: {
+        x: Math.random() * 500,
+        y: Math.random() * 500,
+      },
+      data: {
+        label: `Node ${id}`,
+      },
+    };
+    reactFlowInstance.addNodes(newNode);
+  }, []);
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow
@@ -53,6 +74,9 @@ export function Editor({ setInspector }: EditorProps) {
         fitView
         colorMode="dark"
       >
+        <Panel position="top-center">
+          <Toolbar createNode={createNode} />
+        </Panel>
         <Controls />
         <MiniMap />
         <Background />

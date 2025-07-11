@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Editor } from "./-components/editor";
 import { Inspector } from "./-components/inspector";
 import { useState } from "react";
+import { ReactFlowProvider } from "@xyflow/react";
 
 export const Route = createFileRoute("/editor")({
   component: EditorRoute,
@@ -13,7 +14,9 @@ function EditorRoute() {
   return (
     <main>
       <Inspector open={isInspectorOpen} />
-      <Editor setInspector={setInspector} />
+      <ReactFlowProvider>
+        <Editor setInspector={setInspector} />
+      </ReactFlowProvider>
     </main>
   );
 }

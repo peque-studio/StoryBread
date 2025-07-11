@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-menubar": "^1.1.15",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-router": "^1.126.2",
     "@tanstack/react-router-devtools": "^1.126.2",
