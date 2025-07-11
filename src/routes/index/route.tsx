@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import type React from "react";
 
@@ -170,7 +170,7 @@ export function Index() {
                 size="lg"
                 className="px-8 py-6 text-lg font-semibold bg-transparent"
               >
-                <a href="/editor">Try Demo</a>
+                <Link to="/editor">Try Demo</Link>
               </Button>
             </div>
           </div>
