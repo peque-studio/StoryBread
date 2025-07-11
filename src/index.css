@@ -130,6 +130,23 @@
   --novel-highlight-gray: #3a3a3a;
 }
 
+@layer utilities {
+  .bg-dot-white\/\[0\.2\] {
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-dot-black\/\[0\.2\] {
+    background-image: radial-gradient(circle, black 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dark .bg-dot-white\/\[0\.2\] {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
