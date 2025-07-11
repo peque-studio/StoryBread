@@ -11,6 +11,10 @@ import {
   Panel,
   ReactFlow,
   useReactFlow,
+  type Connection,
+  type EdgeChange,
+  type Node,
+  type NodeChange,
 } from "@xyflow/react";
 import { Toolbar } from "./toolbar";
 
@@ -31,17 +35,18 @@ export function Editor({ setInspector }: EditorProps) {
   const [edges, setEdges] = useState(initialEdges);
 
   const onNodesChange = useCallback(
-    (changes) =>
+    (changes: NodeChange<Node<{ label: string }>>[]) =>
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
   const onEdgesChange = useCallback(
-    (changes) =>
+    (changes: EdgeChange[]) =>
       setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
     []
   );
   const onConnect = useCallback(
-    (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
+    (params: Connection) =>
+      setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
     []
   );
 
