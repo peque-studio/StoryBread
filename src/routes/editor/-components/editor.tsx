@@ -17,7 +17,11 @@ const initialNodes = [
 ];
 const initialEdges = [{ id: "n1-n2", source: "n1", target: "n2" }];
 
-export function Editor() {
+interface EditorProps {
+  setInspector: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function Editor({ setInspector }: EditorProps) {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
@@ -44,12 +48,14 @@ export function Editor() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onNodeClick={() => setInspector(true)}
+        onPaneClick={() => setInspector(false)}
         fitView
         colorMode="dark"
       >
         <Controls />
         <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
+        <Background />
       </ReactFlow>
     </div>
   );

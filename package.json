@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-router": "^1.126.2",
     "@tanstack/react-router-devtools": "^1.126.2",
@@ -17,6 +18,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.525.0",
+    "novel": "^1.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwind-merge": "^3.3.1",
