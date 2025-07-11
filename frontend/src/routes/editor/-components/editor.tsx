@@ -13,10 +13,11 @@ import {
   useReactFlow,
   type Connection,
   type EdgeChange,
-  type Node,
   type NodeChange,
 } from "@xyflow/react";
 import { Toolbar } from "./toolbar";
+import type { ActionNode } from "../-types";
+import { useEditorStore } from "../-store";
 
 const initialNodes = [
   { id: "n1", position: { x: 0, y: 0 }, data: { label: "Node 1" } },
@@ -33,9 +34,10 @@ let nodeId = 0;
 export function Editor({ setInspector }: EditorProps) {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
+  const setActiveNodes = useEditorStore((state) => state.setActiveNodes);
 
   const onNodesChange = useCallback(
-    (changes: NodeChange<Node<{ label: string }>>[]) =>
+    (changes: NodeChange<ActionNode>[]) =>
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
@@ -74,10 +76,10 @@ export function Editor({ setInspector }: EditorProps) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onNodeClick={() => setInspector(true)}
         onPaneClick={() => setInspector(false)}
         fitView
         colorMode="dark"
+        onSelectionChange={(params) => setActiveNodes(params.nodes)}
       >
         <Panel position="top-center">
           <Toolbar createNode={createNode} />

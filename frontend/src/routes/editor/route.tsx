@@ -17,15 +17,15 @@ function EditorRoute() {
   return (
     <main className="w-screen h-screen flex overflow-hidden">
       <Library />
-      <ContextMenu>
-        <Inspector open={isInspectorOpen} />
-        <ContextMenuTrigger>
-          <ReactFlowProvider>
+      <ReactFlowProvider>
+        <ContextMenu>
+          <Inspector open={isInspectorOpen} />
+          <ContextMenuTrigger>
             <Editor setInspector={setInspector} />
-          </ReactFlowProvider>
-        </ContextMenuTrigger>
-        <NodeActions />
-      </ContextMenu>
+          </ContextMenuTrigger>
+          <NodeActions />
+        </ContextMenu>
+      </ReactFlowProvider>
     </main>
   );
 }
