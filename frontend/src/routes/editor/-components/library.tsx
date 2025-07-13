@@ -61,7 +61,7 @@ export function Library() {
   }
 
   return (
-    <Card className="h-full w-1/4 rounded-none">
+    <Card className="h-full rounded-none">
       <CardHeader>
         <CardTitle>Character library</CardTitle>
       </CardHeader>

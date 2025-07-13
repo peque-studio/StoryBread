@@ -18,6 +18,7 @@ import {
 import { Toolbar } from "./toolbar";
 import type { ActionNode } from "../-types";
 import { useEditorStore } from "../-store";
+import { ContextMenuTrigger } from "@/components/ui/context-menu";
 
 const initialNodes = [
   { id: "n1", position: { x: 0, y: 0 }, data: { label: "Node 1" } },
@@ -27,7 +28,7 @@ const initialEdges = [{ id: "n1-n2", source: "n1", target: "n2" }];
 
 let nodeId = 0;
 
-export function Editor() {
+export function Canvas() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const setActiveNodes = useEditorStore((state) => state.setActiveNodes);
@@ -65,7 +66,7 @@ export function Editor() {
   }, []);
 
   return (
-    <div className="h-screen w-[calc(100vw*0.75)]">
+    <ContextMenuTrigger>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -83,6 +84,6 @@ export function Editor() {
         <MiniMap />
         <Background />
       </ReactFlow>
-    </div>
+    </ContextMenuTrigger>
   );
 }

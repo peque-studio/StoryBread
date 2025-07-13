@@ -50,6 +50,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      dockview:
+        specifier: ^4.4.0
+        version: 4.4.0(react@19.1.0)
       lucide-react:
         specifier: ^0.525.0
         version: 0.525.0(react@19.1.0)
@@ -1754,6 +1757,14 @@ packages:
   diff@8.0.2:
     resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
     engines: {node: '>=0.3.1'}
+
+  dockview-core@4.4.0:
+    resolution: {integrity: sha512-UsBJwS3lfZXM+gaTA+bJs8rAxLd7ZEmNcUf5CbKKhiPeKIPJrNCxXxTLcnQb3IXMJUGkE0aX1ZJ4BDaZGMtzlA==}
+
+  dockview@4.4.0:
+    resolution: {integrity: sha512-cWi5R40R5kDky69vAqsKGznRx5tA0gk3Mdqe5aS2r4ollK951mWNJ/EeMmac+UP/juw4cbl0/APhXTV+EMnAbg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   electron-to-chromium@1.5.182:
     resolution: {integrity: sha512-Lv65Btwv9W4J9pyODI6EWpdnhfvrve/us5h1WspW8B2Fb0366REPtY3hX7ounk1CkV/TBjWCEvCBBbYbmV0qCA==}
@@ -4496,6 +4507,13 @@ snapshots:
       dequal: 2.0.3
 
   diff@8.0.2: {}
+
+  dockview-core@4.4.0: {}
+
+  dockview@4.4.0(react@19.1.0):
+    dependencies:
+      dockview-core: 4.4.0
+      react: 19.1.0
 
   electron-to-chromium@1.5.182: {}
 
