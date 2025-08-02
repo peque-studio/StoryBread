@@ -20,17 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowRight,
-  Sparkles,
-  Network,
-  Clock,
-  Puzzle,
-  Palette,
-  MessageSquare,
-  Github,
-} from "lucide-react";
+import { ArrowRight, Network, Clock, Puzzle, Github } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -66,39 +56,21 @@ export function Index() {
   const features = [
     {
       icon: Network,
-      title: "Node-Based Editor",
+      title: "Dialogue Editor",
       description:
-        "Visualize complex relationships between characters, events, and story elements with an intuitive node-based interface.",
+        "A node-based dialogue tree editor, for example for story-driven games with branching narrative.",
     },
     {
       icon: Clock,
       title: "Global Timeline",
       description:
-        "Navigate through your world's history with an interactive timeline that connects all events and character arcs.",
-    },
-    {
-      icon: Sparkles,
-      title: "Step-by-Step Maker",
-      description:
-        "Build comprehensive worlds from scratch using our guided, step-by-step creation process.",
+        "A visual description of the relationships between different events and stories in your world.",
     },
     {
       icon: Puzzle,
       title: "Modular Workspace",
       description:
-        "Customize your workspace completely to match your creative workflow and project requirements.",
-    },
-    {
-      icon: Palette,
-      title: "Character Design Library",
-      description:
-        "Access an extensive library of character templates, traits, and design elements.",
-    },
-    {
-      icon: MessageSquare,
-      title: "Dialog Editor",
-      description:
-        "Create compelling conversations with our powerful yet intuitive dialog creation tools.",
+        "Customize your workspace to match your personal workflow. Describe complex relationships with data tables.",
     },
   ];
 
@@ -122,19 +94,17 @@ export function Index() {
         <div className="max-w-6xl mx-auto text-center">
           {/* Header */}
           <div className="mb-12">
-            <Badge variant="secondary" className="mb-6">
-              <Sparkles className="w-4 h-4 mr-2" />
+            {/*<Badge variant="secondary" className="mb-6">
+              <Palette className="w-4 h-4 mr-2" />
               World Building Platform
-            </Badge>
+            </Badge>*/}
 
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Story Bread
+              StoryBread
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
-              Create immersive game worlds with our node-based editor. Visualize
-              character relationships, navigate through time, and bring your
-              imagination to life with modular tools designed for creators.
+              A web-based environment for creating and managing your worlds.
             </p>
 
             {/* Action Buttons */}
