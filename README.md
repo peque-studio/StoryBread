@@ -1,34 +1,41 @@
-# Story Bread
+<h1 align="center">StoryBread</h1>
 
-Welcome to the **Story Bread**! This open-source project provides a powerful platform for creating immersive game worlds or any imaginary environments using a node-based editor. With our intuitive tools, you can visualize relationships between characters and events, navigate through them using a global timeline, and customize your workspace to fit your unique goals.
+This is the monorepo for StoryBread, a web-based environment for worldbuilding.
+Currently the project is at its early stages, so don't expect much!
 
-## Features
+## Planned Features
 
-- **Node-Based Editor**: Build your worlds from scratch using a user-friendly node-based interface.
-- **Visualize Relationships**: Easily visualize and manage relationships between characters and events.
-- **Global Timeline**: Navigate through your world with a global timeline that allows for seamless storytelling.
-- **Step-by-Step Maker**: Create worlds effortlessly with our convenient step-by-step maker.
-- **Modular Workspace**: Fully customize your workspace to suit your specific needs and goals.
-- **Extensible Plugins**: Future updates will include a variety of plugins to enhance functionality.
-- **Character Design Library**: Access a vast library for character design to bring your creations to life.
-- **User -Friendly Dialog Editor**: Craft dialogues with an editor that is as easy to use as it is powerful.
+- A node-based dialogue tree editor, for example for story-driven games with branching narrative.
+- Customizable table system, allowing you to visualize and edit complex relationships between characters, places, events, and anything else.
+- Branching global timeline making it easier to keep track of different events and when they happen.
+- A modular and customizable workspace.
 
-## Tech Stack
+## Current Tech Stack
 
-- **TypeScript**
-- **React**
-- **Vite**
-- **React Flow**
-- **shadcn/ui**
-- **Tanstack Router**
-- **Tailwindcss**
-- **Novel**
-- **Lucide Icons**
-- **DnD Kit**
+Might change in the future, as we develop the project.
+
+Frontend/middle-end:
+
+- TypeScript
+- React
+- Vite
+- React Flow
+- `shadcn/ui`
+- Tanstack Router
+- Tailwindcss
+- Novel
+- Lucide Icons
+- DnD Kit
+
+Backend
+
+- Rust
+- `axum`
+- Postgres
 
 ## Getting Started
 
-To get started with the Story Bread, follow the instructions below to set up the project on your local machine.
+To get started with StoryBread, follow the instructions below to set up the project on your local machine.
 
 ### Prerequisites
 
@@ -37,46 +44,23 @@ To get started with the Story Bread, follow the instructions below to set up the
 
 ### Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/peque-studio/storybread.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd storybread
-   ```
-
-3. Install the dependencies:
-
-   ```bash
-   pnpm install
-   ```
+```bash
+git clone https://github.com/peque-studio/storybread.git
+cd storybread
+pnpm install
+```
 
 ### Development
 
-1. Start the development server:
-
-   ```bash
-   pnpm dev
-   ```
-
-2. Open your browser and navigate to `http://localhost:5173` to view the application.
-
-3. Begin creating your game world using the node-based editor and explore the features available!
+To start the development server:
+```bash
+pnpm dev
+```
 
 ## Contributing
 
-We welcome contributions from the community! If you'd like to contribute to the Story Bread, please follow these steps:
+At this point, it is better to open an issue if you find any bugs than to contribute directly, as the project structure is still work-in-progress. The exception is very small changes.
 
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with clear messages.
-4. Push your changes to your forked repository.
-5. Submit a pull request detailing your changes.
+# License
 
----
-
-Thank you for your interest in the Story Bread! We hope you enjoy creating amazing worlds and stories with our platform. Happy building!
+The project is under the Mozilla Public License 2.0.
