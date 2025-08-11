@@ -12,7 +12,7 @@ Currently the project is at its early stages, so don't expect much!
 
 ## Current Tech Stack
 
-Might change in the future, as we develop the project.
+Might change in the future as we develop the project.
 
 Frontend/middle-end:
 
@@ -35,7 +35,7 @@ Backend
 
 ## Getting Started
 
-To get started with StoryBread, follow the instructions below to set up the project on your local machine.
+To get started with StoryBread follow the instructions below to set up the project on your local machine.
 
 ### Prerequisites
 
@@ -59,7 +59,7 @@ pnpm dev
 
 ## Contributing
 
-At this point, it is better to open an issue if you find any bugs than to contribute directly, as the project structure is still work-in-progress. The exception is very small changes.
+At this point it is better to open an issue if you find any bugs than to contribute directly, as the project structure is still work-in-progress. The exception is very small changes.
 
 # License
 
